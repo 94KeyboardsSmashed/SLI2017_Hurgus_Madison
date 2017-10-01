@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pi sensor real-time plots</title>
+    <script type="text/javascript" src="vendor/smoothie.js"></script>
+    <script type="text/javascript" src="vendor/reconnecting-websocket.min.js"></script>
+    <script type="text/javascript">
+
+      var readingX = new TimeSeries();
+      
+      function createTimeline() {
+        var chart = new SmoothieChart({
+          interpolation:'bezier',
+          minValue:-20,
+          maxValue:20
+        });
+        chart.addTimeSeries(readingX, { 
+            strokeStyle: 'rgba(0, 255, 0, 0.6)',
+            fillStyle: 'rgba(0, 0, 0, 0.2)',
+            lineWidth: 3 });
+        chart.streamTo(document.getElementById("chart"), 500);
+      }
+
+      var ws = new ReconnectingWebSocket('ws://localhost:8080/');
+      ws.onopen = function() {
+        document.body.style.backgroundColor = '#cfc';
+      };
+      ws.onclose = function() {
+        document.body.style.backgroundColor = null;
+      };
+      ws.onmessage = function(event) {
+        var data = event.data.split(",");
+        var timestamp = parseFloat(data[0]) * 1000;  // expects ms
+        var valueX = parseFloat(data[1]);
+	var valueY = parseFloat(data[2]);
+	var valueZ = parseFloat(data[3]);
+	
+        readingX.append(timestamp, valueY);
+      };
+
+    </script>
+  </head>
+  <body onload="createTimeline()">
+    <h2> Raspberry Pi Accelerometer Data </h2>
+    <canvas id="chart" width="800" height="400"></canvas>
+  </body>
+</html>
