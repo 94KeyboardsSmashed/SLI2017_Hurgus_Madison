@@ -1,8 +1,8 @@
 
 import adxl345
 import time
-from pulsing import *
-from neopixel import *
+from pulsing import * #
+from neopixel import * #
 from ADXL345_Read import * 
 from NeoPixelColorGradient import *
 from sys import stdout

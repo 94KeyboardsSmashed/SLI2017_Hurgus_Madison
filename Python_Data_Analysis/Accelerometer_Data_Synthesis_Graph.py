@@ -90,7 +90,7 @@ with open('log.txt') as log:
     #subplot 3. Variable m graphed on a regular graph. Blue
     plt.subplot(3, 1, 3)
     plt.plot(time, m)
-    plt.axhline(y=0, color='b', linestyle='-')
+    plt.axhline(y=0, color='b', linestyle='-') #just a line on y=0 for reference
     plt.ylabel("acceleration m/s**2")
     plt.xlabel("time (s)")
     plt.show()
