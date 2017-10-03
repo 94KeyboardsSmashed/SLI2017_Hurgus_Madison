@@ -6,9 +6,11 @@ Created on Mon Oct 2 12:13:27 2017
 
 @author: Hyun-seok
 
-Sluuurp. Spagetti code debuging. Uses indents
+Uses indents
 
-Adopted from the Adafruit NeoPixel Libraries Module created by Tony DiCola (tony@tonydicola.com), Jeremy Garff (jer@jers.net)
+Adopted from the Adafruit NeoPixel Libraries Module created by 
+Tony DiCola (tony@tonydicola.com), Jeremy Garff (jer@jers.net)
+
 """
 
 import time
@@ -307,13 +309,26 @@ class Adafruit_NeoPixel(object):
             self.setBrightness(255)
             self.show()
             time.sleep(wait_ms/1000.0)
-    
+
     def neopixel_startup(self):
         """Initiates the neopixel by doing a rainbow cycle, a yellow wipe, and green wipe"""
-        self.begin()
-        self.rainbow_cycle(10, 1)
-        time.sleep(0.5)
-        self.color_wipe(Color(128, 128, 0), 10)
-        time.sleep(0.5)
-        self.color_wipe(Color(0, 255, 0), 10) 
-        print ("Startup Complete")
+        try:
+            self.begin()
+            self.rainbow_cycle(10, 1)
+            time.sleep(0.5)
+            self.color_wipe(Color(128, 128, 0), 10)
+            time.sleep(0.5)
+            self.color_wipe(Color(0, 255, 0), 10)
+            print("Startup Complete")
+        except (RuntimeError, TypeError, NameError):
+            try:
+                print("Error encountered when setting up neopixel")
+                print("Attempting shutdown")
+                for i in range(self.numPixels()):
+                    self.setBrightness(0)
+                    self.show()
+                print("Shutdown Sucessful")
+                print("Good Bye")
+
+            except (RuntimeError, TypeError, NameError):
+                print("Shutdown Failed")

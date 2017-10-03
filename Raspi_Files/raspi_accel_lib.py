@@ -6,18 +6,18 @@ Created on Tue May  9 12:13:27 2017
 
 @author: Hyun-seok
 
-Sluuurp. Spagetti code debuging. Please use indents as they are incompatible with spaces
+Please use indents as they are incompatible with spaces
 and spaces are a pain in the arse to do 5 times for every indent
 
-Accel libraries adapted form ADXL345 Python library for Raspberry Pi by Jonathan Williamson
+Accel libraries adapted form ADXL345 Python library for Raspberry Pi by Jonathan Williamson.
 """
 
-import smbus
 import time
 import math
+import smbus
 
 # select the correct i2c bus for this revision of Raspberry Pi
-revision = ([l[12:-1] for l in open('/proc/cpuinfo', 'r').readlines() if l[:8]=="Revision"]+['0000'])[0]
+revision = ([l[12:-1] for l in open('/proc/cpuinfo', 'r').readlines() if l[:8] == "Revision"]+['0000'])[0]
 bus = smbus.SMBus(1 if int(revision, 16) >= 4 else 0)
 
 # ADXL345 constants
@@ -45,8 +45,10 @@ MEASURE = 0x08
 AXES_DATA = 0x32
 
 
-def readout_bars(x, scale=0.01):
-    return "#" * int(scale * x)
+def readout_bars(data_in, scale=0.01):
+    """returns output of the data in the visual form of ascii 'bars' (#).
+    Input data and scale (optional default 0.01). Scale determines the amount each bar"""
+    return "#" * int(scale * data_in)
 
 def total_per(data_in, denom=25):
     """Returns percentage of the input over the denom. Use in conjunction with color gradients
@@ -63,15 +65,15 @@ class ADXL345:
 
     address = None
 
-    def __init__(self, address = 0x53):
+    def __init__(self, address=0x53):
         self.address = address
         self.setBandwidthRate(BW_RATE_100HZ)
         self.setRange(RANGE_8G)
         self.enableMeasurement()
-        self.x_reading = 0
-        self.y_reading = 0
-        self.z_reading = 0 
-        self.mag_reading = 0
+        self.x_measurement = 0
+        self.y_measurement = 0
+        self.z_measurement = 0
+        self.mag_measurement = 0
 
     def enableMeasurement(self):
         """Enables Measurement Readings"""
@@ -88,15 +90,15 @@ class ADXL345:
         value = bus.read_byte_data(self.address, DATA_FORMAT)
 
         value &= ~0x0F;
-        value |= range_flag;  
+        value |= range_flag;
         value |= 0x08;
 
         bus.write_byte_data(self.address, DATA_FORMAT, value)
-    
-    def getAxes(self, gforce = False):
+
+    def getAxes(self, gforce=False):
         """Returns the measurement of the axes of the accelerometer in a dictionary (x,y,z)"""
         _bytes = bus.read_i2c_block_data(self.address, AXES_DATA, 6)
-        
+
         x = _bytes[0] | (_bytes[1] << 8)
         if(x & (1 << 16 - 1)):
             x = x - (1<<16)
@@ -158,20 +160,29 @@ class ADXL345:
         self.mag_measurement = abs(math.sqrt(accel_x^2 + accel_y^2 + accel_z^2)-9.81)
         return self.mag_measurement
 
+    def string_output(self, gees=False):
+        """Outputs accelerometer readouts in the form 'time, read x, read y, read z"""
+        reading_x = self.read_accelerometer_x(gees)
+        reading_y = self.read_accelerometer_y(gees)
+        reading_z = self.read_accelerometer_z(gees)
+        timestamp = time.time()
+        return "{},{},{},{}".format(timestamp, reading_x, reading_y, reading_z)
+
+
     def accel_startup (self, gees=False):
         """Reads out a couple accelerometer values and checks for errors.
         Hold accelerometer still when doing this"""
-        print ("Starting up accelerometer")
-        print ("Outputting values")
-        print (time.time())
-        print ("X: {}".format(self.read_accelerometer_x()))
-        print ("Y: {}".format(self.read_accelerometer_y()))
-        print ("Z: {}".format(self.read_accelerometer_z()))
-        print ("Mag {}".format(self.read_accelerometer_mag()))
+        print("Starting up accelerometer")
+        print("Outputting values")
+        print("Timestamp: {}".format(time.time()))
+        print("X: {}".format(self.read_accelerometer_x(gees)))
+        print("Y: {}".format(self.read_accelerometer_y(gees)))
+        print("Z: {}".format(self.read_accelerometer_z(gees)))
+        print("Mag {}".format(self.read_accelerometer_mag(gees)))
         if (self.read_accelerometer_x() or self.read_accelerometer_y()
                 or self.read_accelerometer_z() > 24):
-            raise ValueError("Accelerometer readout is unreasonably high")
-        
+            raise ValueError("Accelerometer readout is unreasonably high. Hold payload still during startup")
+
         if (self.read_accelerometer_x() or self.read_accelerometer_y()
                 or self.read_accelerometer_z() < -15):
-            raise ValueError("Accelerometer readout is unreasonably low")
+            raise ValueError("Accelerometer readout is unreasonably low. Hold payload still during startup")

@@ -6,7 +6,7 @@ Created on Mon Oct 2 21:13:27 2017
 
 @author: Hyun-seok
 
-Sluuurp. Spagetti code debuging. Uses indents
+Uses indents
 
 """
 
@@ -40,11 +40,12 @@ if __name__ == '__main__':
     KATANA.accel_startup()
     AQUITAINE.neopixel_startup()
 
+    while True:
+        per_x = raspi_accel_lib.total_per(KATANA.read_accelerometer_x())
+        per_y = raspi_accel_lib.total_per(KATANA.read_accelerometer_y())
+        per_z = raspi_accel_lib.total_per(KATANA.read_accelerometer_z())
+        per_mag = raspi_accel_lib.total_per(KATANA.read_accelerometer_mag())
 
-while True:
-    per_x = raspi_accel_lib.total_per(KATANA.read_accelerometer_x())
-    per_y = raspi_accel_lib.total_per(KATANA.read_accelerometer_y())
-    per_z = raspi_accel_lib.total_per(KATANA.read_accelerometer_z())
-    per_mag = raspi_accel_lib.total_per(KATANA.read_accelerometer_mag())
+        AQUITAINE.color_gradient_rg(per_mag)
 
-    AQUITAINE.color_gradient_rg(per_mag)
+
