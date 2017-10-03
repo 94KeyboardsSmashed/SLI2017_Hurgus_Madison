@@ -1,5 +1,15 @@
-# Adafruit NeoPixel library port to the rpi_ws281x library.
-# Author: Tony DiCola (tony@tonydicola.com), Jeremy Garff (jer@jers.net)
+# -*- coding: utf-8 -*
+# Python Neopixel Libraries Module
+
+"""
+Created on Mon Oct 2 12:13:27 2017
+
+@author: Hyun-seok
+
+Sluuurp. Spagetti code debuging. Uses indents
+
+Adopted from the Adafruit NeoPixel Libraries Module created by Tony DiCola (tony@tonydicola.com), Jeremy Garff (jer@jers.net)
+"""
 
 import time
 import atexit
@@ -167,7 +177,7 @@ class Adafruit_NeoPixel(object):
 
     ##Subset 1. Neopixel based gradient commands:
     def pulsateNeoPixel(self, brightness, color):
-        """Causese the neopixel to pulsate to a certain brightness"""
+        """Causes the neopixel to pulsate to a certain brightness"""
         for i in range(self.numPixels()):
             self.setPixelColor(i, color)
             self.setBrightness(brightness)
@@ -289,11 +299,21 @@ class Adafruit_NeoPixel(object):
                     self.setPixelColor(i+spin, 0)
 
     def color_wipe(self, color, wait_ms=50):
-        """Wipe color across display a pixel at a time."""
-        """Inputs strip id, color 0-255 int/float, and wait_ms in int/float value for sleep time
-        in miliseconds (currently not implimented)"""
+        """Wipe color across display a pixel at a time.
+        Inputs strip id, color 0-255 int/float, and wait_ms in int/float value for sleep time
+        in miliseconds"""
         for i in range(self.numPixels()):
             self.setPixelColor(i, color)
             self.setBrightness(255)
             self.show()
             time.sleep(wait_ms/1000.0)
+    
+    def neopixel_startup(self):
+        """Initiates the neopixel by doing a rainbow cycle, a yellow wipe, and green wipe"""
+        self.begin()
+        self.rainbow_cycle(10, 1)
+        time.sleep(0.5)
+        self.color_wipe(Color(128, 128, 0), 10)
+        time.sleep(0.5)
+        self.color_wipe(Color(0, 255, 0), 10) 
+        print ("Startup Complete")

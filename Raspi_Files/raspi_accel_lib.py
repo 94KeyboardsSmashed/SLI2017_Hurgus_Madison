@@ -1,5 +1,6 @@
-#Python Acceleration Libraries Module
 # -*- coding: utf-8 -*-
+#Python Acceleration Libraries Module
+
 """
 Created on Tue May  9 12:13:27 2017
 
@@ -12,36 +13,36 @@ Accel libraries adapted form ADXL345 Python library for Raspberry Pi by Jonathan
 """
 
 import smbus
-from time import sleep
+import time
 import math
 
 # select the correct i2c bus for this revision of Raspberry Pi
-revision = ([l[12:-1] for l in open('/proc/cpuinfo','r').readlines() if l[:8]=="Revision"]+['0000'])[0]
+revision = ([l[12:-1] for l in open('/proc/cpuinfo', 'r').readlines() if l[:8]=="Revision"]+['0000'])[0]
 bus = smbus.SMBus(1 if int(revision, 16) >= 4 else 0)
 
 # ADXL345 constants
-EARTH_GRAVITY_MS2   = 9.80665
-SCALE_MULTIPLIER    = 0.004
+EARTH_GRAVITY_MS2 = 9.80665
+SCALE_MULTIPLIER = 0.004
 
-DATA_FORMAT         = 0x31
-BW_RATE             = 0x2C
-POWER_CTL           = 0x2D
+DATA_FORMAT = 0x31
+BW_RATE = 0x2C
+POWER_CTL = 0x2D
 
-BW_RATE_1600HZ      = 0x0F
-BW_RATE_800HZ       = 0x0E
-BW_RATE_400HZ       = 0x0D
-BW_RATE_200HZ       = 0x0C
-BW_RATE_100HZ       = 0x0B
-BW_RATE_50HZ        = 0x0A
-BW_RATE_25HZ        = 0x09
+BW_RATE_1600HZ = 0x0F
+BW_RATE_800HZ = 0x0E
+BW_RATE_400HZ = 0x0D
+BW_RATE_200HZ = 0x0C
+BW_RATE_100HZ = 0x0B
+BW_RATE_50HZ = 0x0A
+BW_RATE_25HZ = 0x09
 
-RANGE_2G            = 0x00
-RANGE_4G            = 0x01
-RANGE_8G            = 0x02
-RANGE_16G           = 0x03
+RANGE_2G = 0x00
+RANGE_4G = 0x01
+RANGE_8G = 0x02
+RANGE_16G = 0x03
 
-MEASURE             = 0x08
-AXES_DATA           = 0x32
+MEASURE = 0x08
+AXES_DATA = 0x32
 
 
 def readout_bars(x, scale=0.01):
@@ -129,6 +130,7 @@ class ADXL345:
         axes = self.getAxes(gees)
         accel_x = axes['x']
         self.x_measurement = accel_x
+        return self.x_measurement
 
     def read_accelerometer_y(self, gees=False):
         """Reads Accelerometer data on the Y axis
@@ -136,6 +138,7 @@ class ADXL345:
         axes = self.getAxes(gees)
         accel_y = axes['y']
         self.y_measurement = accel_y
+        return self.y_measurement
 
     def read_accelerometer_z(self, gees=False):
         """Reads Accelerometer data on the Z axis
@@ -143,6 +146,7 @@ class ADXL345:
         axes = self.getAxes(gees)
         accel_z = axes['z']
         self.z_measurement = accel_z
+        return self.z_measurement
 
     def read_accelerometer_mag(self, gees=False):
         """Returns 3d distance formula calculations (magnitude) normalized for gravity
@@ -152,3 +156,22 @@ class ADXL345:
         accel_y = axes['y']
         accel_z = axes['z']
         self.mag_measurement = abs(math.sqrt(accel_x^2 + accel_y^2 + accel_z^2)-9.81)
+        return self.mag_measurement
+
+    def accel_startup (self, gees=False):
+        """Reads out a couple accelerometer values and checks for errors.
+        Hold accelerometer still when doing this"""
+        print ("Starting up accelerometer")
+        print ("Outputting values")
+        print (time.time())
+        print ("X: {}".format(self.read_accelerometer_x()))
+        print ("Y: {}".format(self.read_accelerometer_y()))
+        print ("Z: {}".format(self.read_accelerometer_z()))
+        print ("Mag {}".format(self.read_accelerometer_mag()))
+        if (self.read_accelerometer_x() or self.read_accelerometer_y()
+                or self.read_accelerometer_z() > 24):
+            raise ValueError("Accelerometer readout is unreasonably high")
+        
+        if (self.read_accelerometer_x() or self.read_accelerometer_y()
+                or self.read_accelerometer_z() < -15):
+            raise ValueError("Accelerometer readout is unreasonably low")
