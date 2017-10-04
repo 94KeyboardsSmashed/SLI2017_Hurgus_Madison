@@ -311,8 +311,9 @@ class Adafruit_NeoPixel(object):
             self.show()
             time.sleep(wait_ms/1000.0)
 
-    def neopixel_startup(self):
-        """Initiates the neopixel by doing a rainbow cycle, a yellow wipe, and green wipe"""
+    def neopixel_startup(self, noise=True):
+        """Initiates the neopixel by doing a rainbow cycle, a yellow wipe, and green wipe
+        Use noise = False if you don't want print outputs"""
         try:
             self.begin()
             self.rainbow_cycle(10, 1)
@@ -320,16 +321,20 @@ class Adafruit_NeoPixel(object):
             self.color_wipe(Color(128, 128, 0), 10)
             time.sleep(0.5)
             self.color_wipe(Color(0, 255, 0), 10)
-            print("Startup Complete")
+            if noise:
+                print("# Startup Complete")
         except (RuntimeError):
             try:
-                print("Error encountered when setting up neopixel. Did you try running the module as a root?")
-                print("Attempting shutdown...")
+                if noise:
+                    print("# Error encountered when setting up neopixel. Did you try running the module as a root?")
+                    print("# Attempting shutdown...")
                 for i in range(self.numPixels()):
                     self.setBrightness(0)
                     self.show()
-                print("Shutdown Sucessful")
-                print("Good Bye")
+                if noise:
+                    print("# Shutdown Sucessful")
+                    print("# Good Bye")
 
             except (RuntimeError, TypeError, NameError):
-                print("Shutdown Failed")
+                if noise:
+                    print("# Shutdown Failed")

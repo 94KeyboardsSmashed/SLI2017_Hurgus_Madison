@@ -10,6 +10,8 @@ IMPORTANT: THIS MODULE REQUIRES ROOT ACCESS TO RUN
 Uses indents
 
 """
+
+from sys import stdout
 import raspi_accel_lib
 import raspi_neopixel_lib
 
@@ -34,8 +36,8 @@ if __name__ == '__main__':
     per_mag_log = []
     proceed = True
     #Set up shell output
-    print("Debugger Log:")
-    print("Initiating Startup")
+    print("# Debugger Log:")
+    print("# Initiating Startup...")
     #"""Accelerometers will be named after swords.
     # eg. Katana, Rapier, Saber, Eepee, Gladius, Machete, Cutlass, Trombash"""
     KATANA = raspi_accel_lib.ADXL345()
@@ -65,10 +67,11 @@ if __name__ == '__main__':
             #Do color gradient
             AQUITAINE.color_gradient_rg(per_mag_avg)
 
+            print(KATANA.string_output())
+            stdout.flush()
+
         except (KeyboardInterrupt, SystemExit):
-            print("Shutting Down...")
             for i in range(AQUITAINE.numPixels()):
                 AQUITAINE.setBrightness(0)
                 AQUITAINE.show()
-            print("Good Bye")
             proceed = False

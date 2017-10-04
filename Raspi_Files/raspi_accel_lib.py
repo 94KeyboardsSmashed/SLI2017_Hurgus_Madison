@@ -169,16 +169,17 @@ class ADXL345:
         return "{},{},{},{}".format(timestamp, reading_x, reading_y, reading_z)
 
 
-    def accel_startup (self, gees=False):
-        """Reads out a couple accelerometer values and checks for errors.
-        Hold accelerometer still when doing this"""
-        print("Starting up accelerometer")
-        print("Outputting values")
-        print("Timestamp: {}".format(time.time()))
-        print("X: {}".format(self.read_accelerometer_x(gees)))
-        print("Y: {}".format(self.read_accelerometer_y(gees)))
-        print("Z: {}".format(self.read_accelerometer_z(gees)))
-        print("Mag {}".format(self.read_accelerometer_mag(gees)))
+    def accel_startup (self, gees=False, noise=True):
+        """Reads out a couple accelerometer values (disable with noise = False) 
+        and checks for errors. Hold accelerometer still when doing this"""
+        if noise:
+            print("# Starting up accelerometer")
+            print("# Outputting values")
+            print("# Timestamp: {}".format(time.time()))
+            print("# X: {}".format(self.read_accelerometer_x(gees)))
+            print("# Y: {}".format(self.read_accelerometer_y(gees)))
+            print("# Z: {}".format(self.read_accelerometer_z(gees)))
+            print("# Mag {}".format(self.read_accelerometer_mag(gees)))
         if (self.read_accelerometer_x() > 24 or self.read_accelerometer_y() > 24
                 or self.read_accelerometer_z() > 24):
             raise ValueError("Accelerometer readout is unreasonably high. Hold payload still during startup")
