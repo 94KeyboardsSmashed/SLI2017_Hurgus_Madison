@@ -34,7 +34,9 @@ if __name__ == '__main__':
     #init global variables
     per_mag_log = []
     proceed = True
-
+    #Set up shell output
+    print("# Debugger Log:")
+    print("# Initiating Startup...")
     #"""Accelerometers will be named after swords.
     # eg. Katana, Rapier, Saber, Eepee, Gladius, Machete, Cutlass, Trombash"""
     KATANA = raspi_accel_lib.ADXL345()
@@ -44,8 +46,8 @@ if __name__ == '__main__':
     AQUITAINE = raspi_neopixel_lib.Adafruit_NeoPixel(LED_COUNT_1, LED_PIN_1, LED_FREQ_HZ_1,
                                                      LED_DMA_1, LED_INVERT_1, LED_BRIGHTNESS_1)
     #initiate startup sequence for neopixel
-    KATANA.accel_startup(False, False)
-    AQUITAINE.neopixel_startup(False, False)
+    KATANA.accel_startup()
+    AQUITAINE.neopixel_startup()
 
     while proceed:
         try:
@@ -63,6 +65,8 @@ if __name__ == '__main__':
 
             #Do color gradient
             AQUITAINE.color_gradient_rg(per_mag_avg)
+
+            print(KATANA.string_output())
 
         except (KeyboardInterrupt, SystemExit):
             for i in range(AQUITAINE.numPixels()):

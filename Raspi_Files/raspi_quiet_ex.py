@@ -10,7 +10,6 @@ IMPORTANT: THIS MODULE REQUIRES ROOT ACCESS TO RUN
 Uses indents
 
 """
-
 from sys import stdout
 import raspi_accel_lib
 import raspi_neopixel_lib
@@ -25,8 +24,8 @@ LED_BRIGHTNESS_1 = 255
 LED_INVERT_1 = False
 
 #Accelerometer Constants
-ACCEL_SENSITIVITY = 10
-ACCEL_RESPONSE = 25
+ACCEL_SENSITIVITY = 5
+ACCEL_RESPONSE = 30
 
 #Neopixel Colors
 
@@ -35,9 +34,7 @@ if __name__ == '__main__':
     #init global variables
     per_mag_log = []
     proceed = True
-    #Set up shell output
-    print("# Debugger Log:")
-    print("# Initiating Startup...")
+
     #"""Accelerometers will be named after swords.
     # eg. Katana, Rapier, Saber, Eepee, Gladius, Machete, Cutlass, Trombash"""
     KATANA = raspi_accel_lib.ADXL345()
@@ -47,9 +44,12 @@ if __name__ == '__main__':
     AQUITAINE = raspi_neopixel_lib.Adafruit_NeoPixel(LED_COUNT_1, LED_PIN_1, LED_FREQ_HZ_1,
                                                      LED_DMA_1, LED_INVERT_1, LED_BRIGHTNESS_1)
     #initiate startup sequence for neopixel
-    KATANA.accel_startup()
-    AQUITAINE.neopixel_startup()
+    KATANA.accel_startup(False, False)
+    AQUITAINE.neopixel_startup(False)
 
+    #Websocketing        
+    print(KATANA.string_output())
+    stdout.flush()
     while proceed:
         try:
             #Get values in percentages
@@ -66,9 +66,6 @@ if __name__ == '__main__':
 
             #Do color gradient
             AQUITAINE.color_gradient_rg(per_mag_avg)
-
-            print(KATANA.string_output())
-            stdout.flush()
 
         except (KeyboardInterrupt, SystemExit):
             for i in range(AQUITAINE.numPixels()):
