@@ -7,7 +7,6 @@ Created on Mon Oct 2 12:13:27 2017
 @author: Hyun-seok
 
 IMPORTANT: THIS MODULE REQUIRES ROOT ACCESS TO RUN.
-
 Uses indents
 
 Adopted from the Adafruit NeoPixel Libraries Module created by 

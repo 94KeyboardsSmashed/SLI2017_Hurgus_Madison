@@ -10,7 +10,6 @@ IMPORTANT: THIS MODULE REQUIRES ROOT ACCESS TO RUN
 Uses indents
 
 """
-
 import raspi_accel_lib
 import raspi_neopixel_lib
 
@@ -33,6 +32,7 @@ ACCEL_RESPONSE = 25
 if __name__ == '__main__':
     #init global variables
     per_mag_log = []
+    proceed = True
     #Set up shell output
     print("Debugger Log:")
     print("Initiating Startup")
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     KATANA.accel_startup()
     AQUITAINE.neopixel_startup()
 
-    while True:
+    while proceed:
         try:
             #Get values in percentages
             per_x = raspi_accel_lib.total_per(KATANA.read_accelerometer_x(), ACCEL_SENSITIVITY)
@@ -67,7 +67,8 @@ if __name__ == '__main__':
 
         except (KeyboardInterrupt, SystemExit):
             print("Shutting Down...")
-            for i in range(self.numPixels()):
-                    self.setBrightness(0)
-                    self.show()
+            for i in range(AQUITAINE.numPixels()):
+                AQUITAINE.setBrightness(0)
+                AQUITAINE.show()
             print("Good Bye")
+            proceed = False
