@@ -6,6 +6,8 @@ Created on Mon Oct 2 12:13:27 2017
 
 @author: Hyun-seok
 
+IMPORTANT: THIS MODULE REQUIRES ROOT ACCESS TO RUN.
+
 Uses indents
 
 Adopted from the Adafruit NeoPixel Libraries Module created by 
@@ -320,10 +322,10 @@ class Adafruit_NeoPixel(object):
             time.sleep(0.5)
             self.color_wipe(Color(0, 255, 0), 10)
             print("Startup Complete")
-        except (RuntimeError, TypeError, NameError):
+        except (RuntimeError):
             try:
-                print("Error encountered when setting up neopixel")
-                print("Attempting shutdown")
+                print("Error encountered when setting up neopixel. Did you try running the module as a root?")
+                print("Attempting shutdown...")
                 for i in range(self.numPixels()):
                     self.setBrightness(0)
                     self.show()

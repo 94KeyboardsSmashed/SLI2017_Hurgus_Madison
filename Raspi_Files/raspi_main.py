@@ -6,6 +6,7 @@ Created on Mon Oct 2 21:13:27 2017
 
 @author: Hyun-seok
 
+IMPORTANT: THIS MODULE REQUIRES ROOT ACCESS TO RUN
 Uses indents
 
 """
@@ -22,10 +23,17 @@ LED_DMA_1 = 5
 LED_BRIGHTNESS_1 = 255
 LED_INVERT_1 = False
 
+#Accelerometer Constants
+ACCEL_SENSITIVITY = 10
+ACCEL_RESPONSE = 25
+
 #Neopixel Colors
 
 
 if __name__ == '__main__':
+    #init global variables
+    per_mag_log = []
+    #Set up shell output
     print("Debugger Log:")
     print("Initiating Startup")
     #"""Accelerometers will be named after swords.
@@ -41,11 +49,25 @@ if __name__ == '__main__':
     AQUITAINE.neopixel_startup()
 
     while True:
-        per_x = raspi_accel_lib.total_per(KATANA.read_accelerometer_x())
-        per_y = raspi_accel_lib.total_per(KATANA.read_accelerometer_y())
-        per_z = raspi_accel_lib.total_per(KATANA.read_accelerometer_z())
-        per_mag = raspi_accel_lib.total_per(KATANA.read_accelerometer_mag())
+        try:
+            #Get values in percentages
+            per_x = raspi_accel_lib.total_per(KATANA.read_accelerometer_x(), ACCEL_SENSITIVITY)
+            per_y = raspi_accel_lib.total_per(KATANA.read_accelerometer_y(), ACCEL_SENSITIVITY)
+            per_z = raspi_accel_lib.total_per(KATANA.read_accelerometer_z(), ACCEL_SENSITIVITY)
+            per_mag = raspi_accel_lib.total_per(KATANA.read_accelerometer_mag(), ACCEL_SENSITIVITY)
 
-        AQUITAINE.color_gradient_rg(per_mag)
+            #Process light color by finding averages
+            per_mag_log.append(per_mag)
+            if len(per_mag_log) >=ACCEL_RESPONSE:
+                per_mag_log.pop(0)
+            per_mag_avg = sum(per_mag_log)/len(per_mag_log)
 
+            #Do color gradient
+            AQUITAINE.color_gradient_rg(per_mag_avg)
 
+        except (KeyboardInterrupt, SystemExit):
+            print("Shutting Down...")
+            for i in range(self.numPixels()):
+                    self.setBrightness(0)
+                    self.show()
+            print("Good Bye")

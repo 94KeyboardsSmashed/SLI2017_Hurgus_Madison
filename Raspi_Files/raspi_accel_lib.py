@@ -59,7 +59,7 @@ def total_per(data_in, denom=25):
 def magnitude_data(inx, iny, inz):
     """Returns 3d distance formula calculations (magnitude) normalized for gravity
     Takes Accelerometer data x, y, and z, in int/float form"""
-    return abs(math.sqrt(inx^2 + iny^2 + inz^2)-9.81)
+    return abs(math.sqrt(inx**2 + iny**2 + inz**2)-9.81)
 
 class ADXL345:
 
@@ -157,7 +157,7 @@ class ADXL345:
         accel_x = axes['x']
         accel_y = axes['y']
         accel_z = axes['z']
-        self.mag_measurement = abs(math.sqrt(accel_x^2 + accel_y^2 + accel_z^2)-9.81)
+        self.mag_measurement = abs(math.sqrt(accel_x**2 + accel_y**2 + accel_z**2)-9.81)
         return self.mag_measurement
 
     def string_output(self, gees=False):
@@ -179,10 +179,10 @@ class ADXL345:
         print("Y: {}".format(self.read_accelerometer_y(gees)))
         print("Z: {}".format(self.read_accelerometer_z(gees)))
         print("Mag {}".format(self.read_accelerometer_mag(gees)))
-        if (self.read_accelerometer_x() or self.read_accelerometer_y()
+        if (self.read_accelerometer_x() > 24 or self.read_accelerometer_y() > 24
                 or self.read_accelerometer_z() > 24):
             raise ValueError("Accelerometer readout is unreasonably high. Hold payload still during startup")
 
-        if (self.read_accelerometer_x() or self.read_accelerometer_y()
+        if (self.read_accelerometer_x() < -15 or self.read_accelerometer_y() < -15
                 or self.read_accelerometer_z() < -15):
             raise ValueError("Accelerometer readout is unreasonably low. Hold payload still during startup")
