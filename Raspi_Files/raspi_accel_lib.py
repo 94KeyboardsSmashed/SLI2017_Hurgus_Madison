@@ -165,8 +165,9 @@ class ADXL345:
         reading_x = self.read_accelerometer_x(gees)
         reading_y = self.read_accelerometer_y(gees)
         reading_z = self.read_accelerometer_z(gees)
+        reading_mag = self.read_accelerometer_mag(gees)
         timestamp = time.time()
-        return "{},{},{},{}".format(timestamp, reading_x, reading_y, reading_z)
+        return "{},{},{},{},{}".format(timestamp, reading_x, reading_y, reading_z, reading_mag)
 
 
     def accel_startup (self, gees=False, noise=True):

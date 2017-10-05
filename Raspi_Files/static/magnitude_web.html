@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <title>Pi Accelerometer Real-Time Plots</title>
+    </head>
+
+    <style>
+      /* Style the tab buttons */
+      canvas {
+          padding-left: 0;
+          padding-right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          display: block;
+          width: 800px;
+}
+      .tablink {
+          background-color: #555;
+          color: white;
+          float: left;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          padding: 14px 16px;
+          font-size: 17px;
+          width: 25%;
+      }
+      
+      /* Change background color of buttons on hover */
+      .tablink:hover {
+          background-color: #777;
+      }
+      
+      /* Set default styles for tab content */
+      .tabcontent {
+          color: white;
+          display: none;
+          padding: 50px;
+          text-align: center;
+      }
+      
+      /* Style each tab content individually */ 
+      #Magnitude {background-color:red;}
+      #X_axis {background-color:green;}
+      #Y_axis {background-color:blue;}
+      #Z_axis {background-color:orange;}
+    </style>
+    
+    <script>
+      function openTab(tabName, elmnt, color) {
+        // Hide all elements with class="tabcontent" by default */
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Remove the background color of all tablinks/buttons
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].style.backgroundColor = "";
+        }
+
+        // Show the specific tab content
+        document.getElementById(tabName).style.display = "block";
+
+        // Add the specific color to the button used to open the tab content
+        elmnt.style.backgroundColor = color;
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
+
+    <script type="text/javascript" src="vendor/smoothie.js"></script>
+    <script type="text/javascript" src="vendor/reconnecting-websocket.min.js"></script>
+    <script type="text/javascript">
+
+      var readingMag = new TimeSeries();
+
+      function createTimeline() {
+        var chart = new SmoothieChart({
+          interpolation:'bezier',
+          minValue:-20,
+          maxValue:20
+        });
+
+      chart.addTimeSeries(readingMag, {
+          strokeStyle: '#00ff00',
+          fillStyle: 'rgba(64,128,128,0.5)',
+          lineWidth: 3 });
+          chart.streamTo(document.getElementById("chart"), 500);
+      }
+
+      var ws = new ReconnectingWebSocket('ws://172.20.10.4:8080/'); 
+      ws.onopen = function() {
+        document.body.style.backgroundColor = '#cfc';
+      };
+      ws.onclose = function() {
+        document.body.style.backgroundColor = null;
+      };
+      ws.onmessage = function(event) {
+        var data = event.data.split(",");
+        var timestamp = new Date().getTime() 
+        var valueX = parseFloat(data[1]);
+        var valueY = parseFloat(data[2]);
+        var valueZ = parseFloat(data[3]);
+        var valueMag = parseFloat(data[4])
+
+        readingMag.append(timestamp, valueMag);
+      };
+
+    </script>
+    <body onload="createTimeline()">
+          <div id="Magnitude" class="tabcontent">
+            <h3>Magnitude Readout</h3>
+            <p>
+              Reads out the accelerometer data from the raspberry pi.
+              Data in form of |sqrt(x<sup>2</sup> + y<sup>2</sup> + z<sup>2</sup> - 9.81|
+            </p>
+          </div>
+          
+          <div id="X_axis" class="tabcontent">
+            <h3>X Axis Readout</h3>
+            <p>
+                Reads out the accelerometer data from the raspberry pi.
+                Data is raw X axis readout in m/s<sup>2</sup>
+            </p>
+          </div>
+          
+          <div id="Y_axis" class="tabcontent">
+            <h3>Y Axis Readout</h3>
+            <p>
+                Reads out the accelerometer data from the raspberry pi.
+                Data is raw Y axis readout in m/s<sup>2</sup>
+            </p>
+          </div>
+          
+          <div id="Z_axis" class="tabcontent">
+            <h3>Z Axis Readout</h3>
+            <p>
+                Reads out the accelerometer data from the raspberry pi.
+                Data is raw Z axis readout in m/s<sup>2</sup>
+            </p>
+          </div>
+          
+          <a href=".">
+            <button class="tablink" onclick="openTab('Magnitude', this, 'red')" id="defaultOpen">Magnitude</button>
+          </a>
+          <a href="https://www.google.com/">
+            <button class="tablink" onclick="openTab('X_axis', this, 'green')">X Axis Readout</button>
+          </a>
+          <a href="https://www.xkcd.com">
+            <button class="tablink" onclick="openTab('Y_axis', this, 'blue')">Y Axis Readout</button>
+          </a>
+          <a href="https://github.com/94KeyboardsSmashed/SLI2017_Hurgus_Madison">
+            <button class="tablink" onclick="openTab('Z_axis', this, 'orange')">Z Axis Readout</button>
+          </a>
+
+          <canvas id="chart" width="960" height="500"></canvas>
+
+    </body>
+</html>
