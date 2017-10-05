@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*
-# Python Main Payload Computing Module
+# Python Main Demonstration Computing Module
 
 """
 Created on Mon Oct 2 21:13:27 2017
@@ -69,7 +69,5 @@ if __name__ == '__main__':
             stdout.flush()
 
         except (KeyboardInterrupt, SystemExit):
-            for i in range(AQUITAINE.numPixels()):
-                AQUITAINE.setBrightness(0)
-                AQUITAINE.show()
+            AQUITAINE.neopixel_shutdown(False)
             proceed = False
