@@ -64,9 +64,9 @@ if __name__ == '__main__':
             #Do color gradient
             AQUITAINE.color_gradient_rg(per_mag_avg)
 			
-			#Websocketing        
-			print(KATANA.string_output())
-			stdout.flush()
+            #Websocketing        
+            print(KATANA.string_output())
+            stdout.flush()
 
         except (KeyboardInterrupt, SystemExit):
             for i in range(AQUITAINE.numPixels()):
