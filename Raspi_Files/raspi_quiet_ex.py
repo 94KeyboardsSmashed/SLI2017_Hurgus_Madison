@@ -72,7 +72,7 @@ if __name__ == '__main__':
             stdout.flush()
 
             #Check For Idleness
-            if abs(((per_mag_log[0]+per_mag_log[1])/2)/((per_mag_log[-1] + per_mag_log[-2])/2) < 5:
+            if abs(per_mag_log[0]/per_mag_avg) < 5:
                 idle -= 1
             else:
                 idle = IDLER_TIME
