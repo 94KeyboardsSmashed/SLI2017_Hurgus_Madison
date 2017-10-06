@@ -22,6 +22,7 @@ LED_FREQ_HZ_1 = 800000
 LED_DMA_1 = 5
 LED_BRIGHTNESS_1 = 255
 LED_INVERT_1 = False
+IDLER_TIME = 200
 
 #Accelerometer Constants
 ACCEL_SENSITIVITY = 5
@@ -34,6 +35,8 @@ if __name__ == '__main__':
     #init global variables
     per_mag_log = []
     proceed = True
+    idle = IDLER_TIME
+    shutdown_lights = True
 
     #"""Accelerometers will be named after swords.
     # eg. Katana, Rapier, Saber, Eepee, Gladius, Machete, Cutlass, Trombash"""
@@ -67,6 +70,22 @@ if __name__ == '__main__':
             #Websocketing        
             print(KATANA.string_output())
             stdout.flush()
+
+            #Check For Idleness
+            if abs(per_mag_log[0]/per_mag_log[-1]) < 5:
+                idle -= 1
+            else:
+                idle = IDLER_TIME
+                shutdown_lights = True
+                for i in range(AQUITAINE.numPixels()):
+                    AQUITAINE.setBrightness(255)
+                    AQUITAINE.show()
+            if idle <= 0:
+                if shutdown_lights:
+                    AQUITAINE.neopixel_shutdown(False)
+                    shutdown_lights = False
+                else:
+                    pass
 
         except (KeyboardInterrupt, SystemExit):
             AQUITAINE.neopixel_shutdown(False)
