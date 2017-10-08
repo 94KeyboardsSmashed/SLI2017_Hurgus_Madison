@@ -28,9 +28,6 @@ IDLER_TIME = 200
 ACCEL_SENSITIVITY = 5
 ACCEL_RESPONSE = 30
 
-#Neopixel Colors
-
-
 if __name__ == '__main__':
     #init global variables
     per_mag_log = []
