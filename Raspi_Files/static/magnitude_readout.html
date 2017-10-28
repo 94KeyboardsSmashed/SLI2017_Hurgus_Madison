@@ -5,7 +5,8 @@
     <script type="text/javascript" src="vendor/smoothie.js"></script>
     <script type="text/javascript" src="vendor/reconnecting-websocket.min.js"></script>
     <script type="text/javascript">
-      var readings = new TimeSeries();
+      var indus = new TimeSeries();
+      var yangtze = new TimeSeries();
       
       function createTimeline() {
         var chart = new SmoothieChart({
@@ -13,10 +14,16 @@
           minValue:-0.0,
           maxValue:40.0
         });
-        chart.addTimeSeries(readings, { 
+        chart.addTimeSeries(indus, { 
             strokeStyle: 'rgba(255, 0, 0, 0.6)',
             fillStyle: 'rgba(0, 0, 255, 0.2)',
             lineWidth: 3 });
+
+        chart.addTimeSeries(yangtze, { 
+            strokeStyle: 'rgba(255, 0, 0, 0.6)',
+            fillStyle: 'rgba(0, 0, 255, 0.2)',
+            lineWidth: 3 });
+
         chart.streamTo(document.getElementById("chart"), 500);
       }
       var ws = new ReconnectingWebSocket('ws://temeraire:8080/');
@@ -29,8 +36,10 @@
       ws.onmessage = function(event) {
         var data = event.data.split(",");
         var timestamp = parseFloat(data[0]) * 1000;  // expects ms
-        var value = parseFloat(data[4]);
-        readings.append(timestamp, value);
+        var mag_indus_value = parseFloat(data[4]);
+        var mag_yangtze_value = parseFloat(data[9])
+        indus.append(timestamp, mag_indus_value);
+        yangtze.append(timestamp, mag_yangtze_value);
       };
     </script>
   </head>

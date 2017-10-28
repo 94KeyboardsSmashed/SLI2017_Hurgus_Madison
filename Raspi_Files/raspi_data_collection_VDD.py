@@ -11,8 +11,25 @@ and spaces are a pain in the arse to do 5 times for every indent.
 
 IMPORTANT: REQUIRES ROOT ACCESS TO RUN.
 
-Connect neopixel to ground, 5v, and physical pin 33 (gpio pin 13)
-Connect ADXL345 to 3.3v, 3.3v, parallel connection to physical pin 3 and 5 (gpio 2,3)
+Connect first neopixel to ground, 5v, and physical pin 33 (gpio pin 13)
+Connect first ADXL345 to 3.3v, floating, parallel connection to physical pin 3 and 5 (gpio 2,3)
+with second ADXL345
+
+GPIO 1 setup: ADXL - Pi
+
+GND - GND
+3V - 3V3
+SDA - SDA (GPIO 2)
+SCL - SCL (GPIO 3)
+
+GPIO 2 setup: ADXL - Pi
+
+GND - GND
+3V - 3V3
+SDA - SDA
+SCL - SCL
+SDO - GND
+
 """
 
 from sys import stdout

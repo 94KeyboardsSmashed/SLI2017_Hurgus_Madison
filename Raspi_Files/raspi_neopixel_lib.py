@@ -320,7 +320,7 @@ class Adafruit_NeoPixel(object):
             self.show()
         if noise:
             print ("# Shutdown Sucessful")
-
+            
     def neopixel_startup(self, noise=True):
         """Initiates the neopixel by doing a rainbow cycle, a yellow wipe, and green wipe
         Use noise = False if you don't want print outputs"""

@@ -126,7 +126,7 @@ class ADXL345:
 
         return {"x": x, "y": y, "z": z}
 
-    def read_accelerometer_x(self, gees=False):
+    def read_accel_x(self, gees=False):
         """Reads Accelerometer data on the X axis
         Inputs acceleometer ID and a boolean for outputing gees or m/s. Default m/s"""
         axes = self.getAxes(gees)
@@ -134,7 +134,7 @@ class ADXL345:
         self.x_measurement = accel_x
         return self.x_measurement
 
-    def read_accelerometer_y(self, gees=False):
+    def read_accel_y(self, gees=False):
         """Reads Accelerometer data on the Y axis
         Inputs acceleometer ID and a boolean for outputing gees or m/s. Default m/s"""
         axes = self.getAxes(gees)
@@ -142,7 +142,7 @@ class ADXL345:
         self.y_measurement = accel_y
         return self.y_measurement
 
-    def read_accelerometer_z(self, gees=False):
+    def read_accel_z(self, gees=False):
         """Reads Accelerometer data on the Z axis
         Inputs acceleometer ID and a boolean for outputing gees or m/s. Default m/s"""
         axes = self.getAxes(gees)
@@ -150,7 +150,7 @@ class ADXL345:
         self.z_measurement = accel_z
         return self.z_measurement
 
-    def read_accelerometer_mag(self, gees=False):
+    def read_accel_mag(self, gees=False):
         """Returns 3d distance formula calculations (magnitude) normalized for gravity
         Inputs acceleometer ID and a boolean for outputing gees or m/s. Default m/s"""
         axes = self.getAxes(gees)
@@ -168,6 +168,14 @@ class ADXL345:
         reading_mag = self.read_accelerometer_mag(gees)
         timestamp = time.time()
         return "{},{},{},{},{}".format(timestamp, reading_x, reading_y, reading_z, reading_mag)
+
+    def read_accel_percentages(self, sensitivity):
+        """Creates a dictionary for accelerometer value percentages [xper, yper, zper, magper]"""
+        perx = total_per(self.read_accelerometer_x(), sensitivity)
+        pery = total_per(self.read_accelerometer_y(), sensitivity)
+        perz = total_per(self.read_accelerometer_z(), sensitivity)
+        permag = total_per(self.read_accelerometer_mag(), sensitivity)
+        return dict([('xper', perx), ('yper', pery), ('zper', perz), ('magper', permag)])
 
 
     def accel_startup (self, gees=False, noise=True):
