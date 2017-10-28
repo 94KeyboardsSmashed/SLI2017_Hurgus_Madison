@@ -15,20 +15,32 @@ Connect first neopixel to ground, 5v, and physical pin 33 (gpio pin 13)
 Connect first ADXL345 to 3.3v, floating, parallel connection to physical pin 3 and 5 (gpio 2,3)
 with second ADXL345
 
-GPIO 1 setup: ADXL - Pi
+GPIO 1 setup: Component - Pi
 
+First Accelerometer
 GND - GND
 3V - 3V3
 SDA - SDA (GPIO 2)
 SCL - SCL (GPIO 3)
 
+First Neopixel
+GND - GND
+PWR - 5v
+INPUT - GPIO 13
+
 GPIO 2 setup: ADXL - Pi
 
+Second Accelerometer
 GND - GND
 3V - 3V3
 SDA - SDA (GPIO 2)
 SCL - SCL (GPIO 3)
 SDO - GND
+
+Second Neopixel
+GND - GND
+PWR - 5v
+INPUT - GPIO 18
 """
 
 from sys import stdout
@@ -149,7 +161,7 @@ if __name__ == '__main__':
                     SABER.neopixel_shutdown(False)
                     shutdown_lights = False
                 else:
-                    pass
+                    idle = -5
         except Exception:
             KATANA.color_wipe(raspi_neopixel_lib.Color(255, 0, 0))
             KATANA.neopixel_shutdown(False)
