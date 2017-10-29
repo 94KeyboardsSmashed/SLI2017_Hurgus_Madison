@@ -134,7 +134,7 @@ class ADXL345:
         self.x_measurement = accel_x
         return self.x_measurement
 
-    def read_accel_y(self, gees=False):
+    def read_accelerometer_y(self, gees=False):
         """Reads Accelerometer data on the Y axis
         Inputs acceleometer ID and a boolean for outputing gees or m/s. Default m/s"""
         axes = self.getAxes(gees)
@@ -142,7 +142,7 @@ class ADXL345:
         self.y_measurement = accel_y
         return self.y_measurement
 
-    def read_accel_z(self, gees=False):
+    def read_accelerometer_z(self, gees=False):
         """Reads Accelerometer data on the Z axis
         Inputs acceleometer ID and a boolean for outputing gees or m/s. Default m/s"""
         axes = self.getAxes(gees)
@@ -150,7 +150,7 @@ class ADXL345:
         self.z_measurement = accel_z
         return self.z_measurement
 
-    def read_accel_mag(self, gees=False):
+    def read_accelerometer_mag(self, gees=False):
         """Returns 3d distance formula calculations (magnitude) normalized for gravity
         Inputs acceleometer ID and a boolean for outputing gees or m/s. Default m/s"""
         axes = self.getAxes(gees)
