@@ -126,7 +126,7 @@ class ADXL345:
 
         return {"x": x, "y": y, "z": z}
 
-    def read_accel_x(self, gees=False):
+    def read_accelerometer_x(self, gees=False):
         """Reads Accelerometer data on the X axis
         Inputs acceleometer ID and a boolean for outputing gees or m/s. Default m/s"""
         axes = self.getAxes(gees)
