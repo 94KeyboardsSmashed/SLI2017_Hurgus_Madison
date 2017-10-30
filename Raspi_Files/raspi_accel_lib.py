@@ -62,6 +62,7 @@ def magnitude_data(inx, iny, inz):
     return abs(math.sqrt(inx**2 + iny**2 + inz**2)-9.81)
 
 class ADXL345:
+    """Main Class for everything to do with the ADXL345"""
 
     address = None
 
