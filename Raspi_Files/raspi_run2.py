@@ -101,9 +101,9 @@ if __name__ == '__main__':
         KATANA.neopixel_shutdown(False)
 
         #SABER init
-        SABER.neopixel_shutdown(False)
         SABER.neopixel_startup(False)
         SABER.color_wipe(raspi_neopixel_lib.Color(0, 255, 0), 10)
+        SABER.neopixel_shutdown(False)
 
     except Exception:
         #KATANA error
@@ -153,8 +153,8 @@ if __name__ == '__main__':
                     KATANA.setBrightness(128)
                     KATANA.show()
                 for i in range(SABER.numPixels()):
-                    SABRE.setBrightness(128)
-                    SABRE.show()
+                    SABER.setBrightness(128)
+                    SABER.show()
             if idle <= 0:
                 if shutdown_lights:
                     KATANA.neopixel_shutdown(False)

@@ -12,10 +12,10 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
-def mag(x):
+def mag(value):
     #Calculates Magnitude (sqrt(x^2+y^2+z^2))
     #Takes list of tuples (x, y, z)
-    return math.sqrt(sum(float(i)**2 for i in x))
+    return math.sqrt(sum(float(i)**2 for i in value))
 
 def linesplit(number):
     #Parses log data into values into a iterable list
@@ -33,7 +33,7 @@ def sanitize(lst):
 #Name of log has to be same as name in the open function
 
 with open('Example_Log.txt') as log: #Change file in open() command to match file name
-    lines = log.readlines()
+    lines = log.readlines()        
   
     rawtime = linesplit(0)
     rawX = linesplit(1)
