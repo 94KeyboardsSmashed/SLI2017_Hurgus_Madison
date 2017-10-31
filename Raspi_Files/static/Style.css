@@ -106,11 +106,11 @@ body.open:after {
   transition: all 0.4s ease;
   width: auto; }
   .b-link:hover, .b-link--active {
-    border-left: #444444 solid 2px;
+    border-left: #4444 solid 2px;
     padding-left: 30px; }
 
 .b-menu {
-  background: white;
+  background: #2e4053;
   border: white solid 2px;
   border-radius: 50%;
   cursor: pointer;
@@ -129,10 +129,10 @@ body.open:after {
   width: 60px;
   z-index: 12; }
   .b-menu:hover {
-    border: #444444 solid 2px; }
+    border: #2e4053 solid 2px; }
 
 .b-bun {
-  background: #444444;
+  background: white;
   position: relative;
   -webkit-transition: all 0.4s ease;
   -o-transition: all 0.4s ease;
@@ -174,9 +174,10 @@ body.open:after {
   .b-container:hover:not(.open) .bun-bottom {
     background: white; }
   .b-container.open .b-main {
-    border: #444444 solid 2px; }
+    border: #444444 solid 2px;
+    background: white; }
   .b-container.open .b-bun--top {
-    background: #444444;
+    background: white;
     top: 9px;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
@@ -184,10 +185,28 @@ body.open:after {
   .b-container.open .b-bun--mid {
     opacity: 0; }
   .b-container.open .b-bun--bottom {
-    background: #444444;
+    background: white;
     top: 5px;
     -webkit-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);
     transform: rotate(-45deg); }
   .b-container.open .b-brand {
     color: #444444; }
+body {
+  background-color: #2e4053; 
+}
+
+#chart {
+  max-height: 100%;
+  max-width: 100%;
+  height: auto;
+  width: auto;
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  margin: auto;
+  }
