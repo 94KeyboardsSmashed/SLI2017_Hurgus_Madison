@@ -5,7 +5,8 @@
     <script type="text/javascript" src="vendor/smoothie.js"></script>
     <script type="text/javascript" src="vendor/reconnecting-websocket.min.js"></script>
     <script type="text/javascript">
-      var readings = new TimeSeries();
+      var indus = new TimeSeries();
+      var yangtze = new TimeSeries();
       
       function createTimeline() {
         var chart = new SmoothieChart({
@@ -13,10 +14,16 @@
           minValue:-20.0,
           maxValue:20.0
         });
-        chart.addTimeSeries(readings, { 
+        chart.addTimeSeries(indus, { 
             strokeStyle: 'rgba(255, 255, 0, 0.6)',
             fillStyle: 'rgba(0, 0, 255, 0.2)',
             lineWidth: 3 });
+
+        chart.addTimeSeries(yangtze, { 
+            strokeStyle: 'rgba(255, 255, 157, 0.6)',
+            fillStyle: 'rgba(128, 255, 128, 0.2)',
+            lineWidth: 3 });
+
         chart.streamTo(document.getElementById("chart"), 500);
       }
       var ws = new ReconnectingWebSocket('ws://temeraire:8080/');
@@ -29,14 +36,18 @@
       ws.onmessage = function(event) {
         var data = event.data.split(",");
         var timestamp = parseFloat(data[0]) * 1000;  // expects ms
-        var value = parseFloat(data[3]);
-        readings.append(timestamp, value);
+        var z_indus_value = parseFloat(data[3]);
+        var z_yangtze_value = parseFloat(data[8])
+        indus.append(timestamp, z_indus_value);
+        yangtze.append(timestamp, z_yangtze_value);
       };
     </script>
   </head>
   <body onload="createTimeline()">
     <h2>Real Time Accelerometer Plots</h2>
-    <p>Real time accelerometer data output in the form of raw Z axis data</p>
+    <p>Real time accelerometer data output in the form of raw z accelerometer readings in m/s<sup>2</sup></p>
+    <p>The whiter colored line is damped with a liquid. The darker line is undamped.
+       Shake and find out if it is sucessful at damping liquids!</p>
     <canvas id="chart" width="800" height="400"></canvas>
   </body>
 </html>

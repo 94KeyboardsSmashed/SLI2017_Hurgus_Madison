@@ -53,14 +53,14 @@ LED_COUNT_1 = 24
 LED_PIN_1 = 18
 LED_FREQ_HZ_1 = 800000
 LED_DMA_1 = 5
-LED_BRIGHTNESS_1 = 128
+LED_BRIGHTNESS_1 = 64
 LED_INVERT_1 = False
 
 LED_COUNT_2 = 24
 LED_PIN_2 = 13
 LED_FREQ_HZ_2 = 800000
 LED_DMA_2 = 5
-LED_BRIGHTNESS_2 = 128
+LED_BRIGHTNESS_2 = 64
 LED_INVERT_2 = False
 
 #Time until neopixel idle
@@ -68,7 +68,7 @@ IDLER_TIME = 1000
 
 #Accelerometer Constants
 ACCEL_SENSITIVITY = 5
-ACCEL_RESPONSE = 30
+ACCEL_RESPONSE = 20
 
 if __name__ == '__main__':
     #init global variables
@@ -97,21 +97,21 @@ if __name__ == '__main__':
 
         #KATANA init
         KATANA.neopixel_startup(False)
-        KATANA.color_wipe(raspi_neopixel_lib.Color(0, 255, 0), 10)
-        KATANA.neopixel_shutdown(False)
+        KATANA.color_wipe(raspi_neopixel_lib.Color(0, 0, 255), 10)
+        #KATANA.neopixel_shutdown(False)
 
         #SABER init
-        SABER.neopixel_shutdown(False)
         SABER.neopixel_startup(False)
-        SABER.color_wipe(raspi_neopixel_lib.Color(0, 255, 0), 10)
+        SABER.color_wipe(raspi_neopixel_lib.Color(0, 0, 255), 10)
+        #SABER.neopixel_shutdown(False)
 
     except Exception:
         #KATANA error
-        KATANA.color_wipe(raspi_neopixel_lib.Color(255, 0, 0), 10)
+        KATANA.color_wipe(raspi_neopixel_lib.Color(0, 255, 0), 10)
         KATANA.neopixel_shutdown(False)
 
         #SABER error
-        SABER.color_wipe(raspi_neopixel_lib.Color(255, 0, 0), 10)
+        SABER.color_wipe(raspi_neopixel_lib.Color(0, 255, 0), 10)
         SABER.neopixel_shutdown(False)
 
     while proceed:
@@ -153,8 +153,8 @@ if __name__ == '__main__':
                     KATANA.setBrightness(128)
                     KATANA.show()
                 for i in range(SABER.numPixels()):
-                    SABRE.setBrightness(128)
-                    SABRE.show()
+                    SABER.setBrightness(128)
+                    SABER.show()
             if idle <= 0:
                 if shutdown_lights:
                     KATANA.neopixel_shutdown(False)

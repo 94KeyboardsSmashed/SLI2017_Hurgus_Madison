@@ -35,64 +35,33 @@ with open('log.txt') as log:
     rawX = linesplit(1)
     rawY = linesplit(2)
     rawZ = linesplit(3)
-    rawMag = linesplit(4)
     
     time = sanitize(rawtime)     
     x = sanitize(rawX)
     y = sanitize(rawY)
     z = sanitize(rawZ)
-    mag = sanitize(rawMag)
-    
-    total = zip(x, y, z) #Creates a list of tuples (x,y,z)
-    total2 = zip(x, y, z) #Ibid. Repeat for anytime you do list comprehensions.
 
-    #v is the absolute value of the (magnitude of the data minus 9.81)
-    v = [abs(mag(val)-9.81) for val in total]
-    
-    #m(magnitude) is simply the magnitude of the data
-    m = [mag(val) for val in total2]
-
-    #t (transform) is the fast fourier transform of v (google is your friend)
-    t = np.fft.fft(np.array(v))
-
-    #deltatime is the length of the experiment (literaly change in time)
-    deltatime = float(time[-1]) - float(time[0])
-
-    #Data outputs in the shell
-    print ("Delta Time (s): ")
-    print (deltatime)
-    print ("Area Determined by Trapizoid Method (m/s**3):")
-    print (np.trapz(np.array(v)))
-    print ("Area Determined by Trapizoid Method/Delta Time (m/s**2): ")
-    print ((np.trapz(np.array(v)))/deltatime)
-    print ("Mean Value of Data Set: ")
-    print (np.mean(np.array(v)))
-    print ("Standard Diviation of Data Set: ")
-    print (np.std(np.array(v), dtype=np.float64))
-    print ("Sum of Graph Range: ")
-    print (sum(v))
-
-    #consult matplotlib libraries, esp pyplot.
+    #consult matplotlib libraries, especially pyplot.
     plt.figure()
 
-    #subplot 1. The fast fourier transforms graphed on a log scale. Green
+    #subplot 1. X axis read-outs on a regular graph. Green
     plt.subplot(3, 1, 1)
-    plt.semilogy(time, abs(t), 'g')
+    plt.plot(time, x, 'g')
     plt.axhline(y=0, color='b', linestyle='-') #just a line on y=0 for reference
     plt.ylabel("Amplitude (normalized log scale)")
     plt.xlabel("Frequency (in Hertz)")
 
-    #subplot 2. Variable v graphed on a regular graph. Red
+    #subplot 2. Y axis read-outs on a regular graph. Red
     plt.subplot(3, 1, 2)
-    plt.plot(time, v, 'r')
+    plt.plot(time, y, 'r')
     plt.axhline(y=0, color='b', linestyle='-') #just a line on y=0 for reference
     plt.ylabel("acceleration m/s**2")
     plt.xlabel("time (s)")
 
-    #subplot 3. Variable m graphed on a regular graph. Blue
+    #subplot 3. Z axis read-outs on a regular graph. Blue
     plt.subplot(3, 1, 3)
-    plt.plot(time, m)
-    plt.axhline(y=0, color='b', linestyle='-') #just a line on y=0 for reference
+    plt.plot(time, z)
+    plt.axhline(y=0, color='b', linestyle='-')
     plt.ylabel("acceleration m/s**2")
     plt.xlabel("time (s)")
     plt.show()
