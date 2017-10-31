@@ -44,6 +44,7 @@ INPUT - GPIO 18
 """
 
 from sys import stdout
+import time
 import raspi_accel_lib
 import raspi_neopixel_lib
 
@@ -87,9 +88,11 @@ if __name__ == '__main__':
     #KATANA init
     KATANA.neopixel_startup(False)
     KATANA.color_wipe(raspi_neopixel_lib.Color(0, 255, 128), 10)
+    time.sleep(5)
     KATANA.neopixel_shutdown(False)
 
     #SABER init
     SABER.neopixel_startup(False)
     SABER.color_wipe(raspi_neopixel_lib.Color(0, 255, 128), 10)
+    time.sleep(5)
     SABER.neopixel_shutdown(False)

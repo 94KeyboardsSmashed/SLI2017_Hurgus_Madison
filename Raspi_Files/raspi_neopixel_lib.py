@@ -197,11 +197,11 @@ class Adafruit_NeoPixel(object):
     def color_gradient_rg(self, percentage):
         """Puts the Neopixel in a color gradient from red to green based on input percentage
         Input strip id and float or int between 0 and 100 (inclusive)"""
-        redness = 255
+        redness = 64
         greeness = 0
         numberper = percentage
-        redness -= 2.55*numberper
-        greeness += 2.55*numberper
+        redness -= 0.64*numberper
+        greeness += 0.64*numberper
         if redness < 0:
             redness = 0
         if greeness > 255:
@@ -328,9 +328,9 @@ class Adafruit_NeoPixel(object):
             self.begin()
             self.rainbow_cycle(10, 1)
             time.sleep(0.5)
-            self.color_wipe(Color(128, 128, 0), 10)
+            self.color_wipe(Color(64, 64, 0), 10)
             time.sleep(0.5)
-            self.color_wipe(Color(0, 255, 0), 10)
+            self.color_wipe(Color(0, 64, 0), 10)
             if noise:
                 print("# Startup Complete")
         except (RuntimeError):
