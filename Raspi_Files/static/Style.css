@@ -39,7 +39,7 @@
   box-sizing: border-box; }
 
 body:after {
-  background: white;
+  background: #ffffff;
   content: "";
   height: 100%;
   left: 0;
@@ -66,7 +66,7 @@ body.open:after {
   .b-nav:not(.open) {
     visibility: hidden; }
   .b-nav li {
-    color: #444444;
+    color: #2e4053;
     list-style-type: none;
     padding: 10px;
     text-align: left;
@@ -95,7 +95,7 @@ body.open:after {
 .b-link {
   background: transparent;
   border-left: rgba(68, 68, 68, 0) solid 2px;
-  color: #444444;
+  color: #2e4053;
   font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
   font-size: 24px;
   font-weight: 300;
@@ -153,7 +153,7 @@ body.open:after {
 .b-brand {
   color: white;
   font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 300;
   margin-left: 30px;
   position: relative;
@@ -174,10 +174,11 @@ body.open:after {
   .b-container:hover:not(.open) .bun-bottom {
     background: white; }
   .b-container.open .b-main {
-    border: #444444 solid 2px;
+    border: #2e4053 solid 2px; }
+  .b-container.open .b-menu {
     background: white; }
   .b-container.open .b-bun--top {
-    background: white;
+    background: #2e4053;
     top: 9px;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
@@ -185,16 +186,17 @@ body.open:after {
   .b-container.open .b-bun--mid {
     opacity: 0; }
   .b-container.open .b-bun--bottom {
-    background: white;
+    background: #2e4053;
     top: 5px;
     -webkit-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);
     transform: rotate(-45deg); }
   .b-container.open .b-brand {
-    color: #444444; }
+    color: #2e4053; }
 body {
   background-color: #2e4053; 
 }
+
 
 #chart {
   max-height: 100%;

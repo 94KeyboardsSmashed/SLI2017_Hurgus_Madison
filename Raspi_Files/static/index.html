@@ -23,7 +23,7 @@
             </div>
             
             <!-- TTL -->
-            <a href="#" class="b-brand">Realtime Accelerometer Readout</a>
+            <a href="http://temeraire:8080/index.html" class="b-brand">Realtime Accelerometer Readout</a>
         </div>
 
         <script>
@@ -47,10 +47,7 @@
         <script type="text/javascript" src="vendor/smoothie.js"></script>
         <script type="text/javascript" src="vendor/reconnecting-websocket.min.js"></script>
         <script type="text/javascript">
-        /*
-          var indus = new TimeSeries();
-          var yangtze = new TimeSeries();
-        */  
+ 
           function createTimeline() {
             var chart = new SmoothieChart({
                 grid: { fillStyle:'#ffffff', verticalSections: 7},
@@ -83,24 +80,7 @@
         // Add to SmoothieChart
         smoothie.addTimeSeries(line1);
         smoothie.addTimeSeries(line2);
-          /*
-          var ws = new ReconnectingWebSocket('ws://temeraire:8080/');
-          ws.onopen = function() {
-            document.body.style.backgroundColor = '#cfc';
-          };
-          ws.onclose = function() {
-            document.body.style.backgroundColor = null;
-          };
-          ws.onmessage = function(event) {
-            var data = event.data.split(",");
-            var timestamp = parseFloat(data[0]) * 1000;  // expects ms
-            var mag_indus_value = parseFloat(data[4]);
-            var mag_yangtze_value = parseFloat(data[9])
-            indus.append(timestamp, mag_indus_value);
-            yangtze.append(timestamp, mag_yangtze_value);
-          };
-          */
         </script>
-        <canvas id="chart" width="1000" height="400"></canvas>
+        <canvas id="chart" width="1500" height="600"></canvas>
     </body>
 </html>

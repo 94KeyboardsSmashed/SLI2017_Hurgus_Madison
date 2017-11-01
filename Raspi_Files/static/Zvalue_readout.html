@@ -1,53 +1,93 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Pi sensor real-time plots</title>
-    <script type="text/javascript" src="vendor/smoothie.js"></script>
-    <script type="text/javascript" src="vendor/reconnecting-websocket.min.js"></script>
-    <script type="text/javascript">
-      var indus = new TimeSeries();
-      var yangtze = new TimeSeries();
+    <head>
+        <title>Realtime Accelerometer</title>
+        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    </head>
+    <link rel="stylesheet" type="text/css" href="Style.css">
+    <body onload="createTimeline()">
+        <!-- NAV -->
+        <div class="b-nav">
+                <li><a class="b-link" href="http://temeraire:8080/magnitude_readout.html" target="_blank">Magnitude</a></li>
+                <li><a class="b-link" href="http://temeraire:8080/Xvalue_readout.html" target="_blank">X Readout</a></li>
+                <li><a class="b-link" href="http://temeraire:8080/Yvalue_readout.html" target="_blank">Y Readout</a></li>
+                <li><a class="b-link" href="http://temeraire:8080/Zvalue_readout.html" target="_blank">Z Readout</a></li>
+             </div>
+            
+            <!-- ICON -->
+            <div class="b-container">
+                <div class="b-menu">
+                <div class="b-bun b-bun--top"></div>
+                <div class="b-bun b-bun--mid"></div>
+                <div class="b-bun b-bun--bottom"></div>
+            </div>
+            
+            <!-- TTL -->
+            <a href="http://temeraire:8080/index.html" class="b-brand">Realtime Accelerometer Readout: Z-Axis</a>
+        </div>
+
+        <script>
+            'use strict';
+
+            (function() {
+            var body = document.body;
+            var burgerMenu = document.getElementsByClassName('b-menu')[0];
+            var burgerContain = document.getElementsByClassName('b-container')[0];
+            var burgerNav = document.getElementsByClassName('b-nav')[0];
+
+            burgerMenu.addEventListener('click', function toggleClasses() {
+                [body, burgerContain, burgerNav].forEach(function (el) {
+                el.classList.toggle('open');
+                });
+            }, false);
+            })();
+        </script>
+
+        <!--CHART-->
+        <script type="text/javascript" src="vendor/smoothie.js"></script>
+        <script type="text/javascript" src="vendor/reconnecting-websocket.min.js"></script>
+        <script type="text/javascript">
+          var indus = new TimeSeries();
+          var yangtze = new TimeSeries();
       
-      function createTimeline() {
-        var chart = new SmoothieChart({
-          interpolation:'bezier',
-          minValue:-20.0,
-          maxValue:20.0
-        });
-        chart.addTimeSeries(indus, { 
-            strokeStyle: 'rgba(255, 255, 0, 0.6)',
-            fillStyle: 'rgba(0, 0, 255, 0.2)',
-            lineWidth: 3 });
-
-        chart.addTimeSeries(yangtze, { 
-            strokeStyle: 'rgba(255, 255, 157, 0.6)',
-            fillStyle: 'rgba(128, 255, 128, 0.2)',
-            lineWidth: 3 });
-
-        chart.streamTo(document.getElementById("chart"), 500);
-      }
-      var ws = new ReconnectingWebSocket('ws://temeraire:8080/');
-      ws.onopen = function() {
-        document.body.style.backgroundColor = '#cfc';
-      };
-      ws.onclose = function() {
-        document.body.style.backgroundColor = null;
-      };
-      ws.onmessage = function(event) {
-        var data = event.data.split(",");
-        var timestamp = parseFloat(data[0]) * 1000;  // expects ms
-        var z_indus_value = parseFloat(data[3]);
-        var z_yangtze_value = parseFloat(data[8])
-        indus.append(timestamp, z_indus_value);
-        yangtze.append(timestamp, z_yangtze_value);
-      };
-    </script>
-  </head>
-  <body onload="createTimeline()">
-    <h2>Real Time Accelerometer Plots</h2>
-    <p>Real time accelerometer data output in the form of raw z accelerometer readings in m/s<sup>2</sup></p>
-    <p>The whiter colored line is damped with a liquid. The darker line is undamped.
-       Shake and find out if it is sucessful at damping liquids!</p>
-    <canvas id="chart" width="800" height="400"></canvas>
-  </body>
+          function createTimeline() {
+            var chart = new SmoothieChart({
+                grid: { fillStyle:'#ffffff', verticalSections: 7},
+                labels:{fillStyle:'#000000',fontSize:11},
+                interpolation:'bezier',
+                 minValue:-0.0,
+                 maxValue:40.0
+            });
+            chart.addTimeSeries(indus, { 
+                strokeStyle: '#3375ff',
+                lineWidth: 3 });
+    
+            chart.addTimeSeries(yangtze, { 
+                strokeStyle: '#ff5733',
+                lineWidth: 3 });
+    
+            chart.streamTo(document.getElementById("chart"), 500);
+          }
+          
+          var ws = new ReconnectingWebSocket('ws://temeraire:8080/');
+          ws.onopen = function() {
+            document.body.style.backgroundColor = '#cfc';
+          };
+          ws.onclose = function() {
+            document.body.style.backgroundColor = null;
+          };
+          ws.onmessage = function(event) {
+            var data = event.data.split(",");
+            var timestamp = parseFloat(data[0]) * 1000;  // expects ms
+            var z_indus_value = parseFloat(data[3]);
+            var z_yangtze_value = parseFloat(data[8])
+            indus.append(timestamp, z_indus_value);
+            yangtze.append(timestamp, z_yangtze_value);
+          };
+          
+        </script>
+        <!--canvas size may need to be changed depending on screen size.
+           The current configuration is for a larger screen size-->
+        <canvas id="chart" width="1500" height="600"></canvas>
+    </body>
 </html>
