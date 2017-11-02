@@ -55,7 +55,7 @@
                 grid: { fillStyle:'#ffffff', verticalSections: 7},
                 labels:{fillStyle:'#000000',fontSize:11},
                 interpolation:'bezier',
-                 minValue:-0.0,
+                 minValue:-40.0,
                  maxValue:40.0
             });
             chart.addTimeSeries(indus, { 
@@ -71,10 +71,10 @@
           
           var ws = new ReconnectingWebSocket('ws://temeraire:8080/');
           ws.onopen = function() {
-            document.body.style.backgroundColor = '#cfc';
+            console.log("Websocket Opened");
           };
           ws.onclose = function() {
-            document.body.style.backgroundColor = null;
+            window.alert("Websocket Closed");
           };
           ws.onmessage = function(event) {
           var data = event.data.split(",");
