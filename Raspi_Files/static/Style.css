@@ -193,6 +193,21 @@ body.open:after {
     transform: rotate(-45deg); }
   .b-container.open .b-brand {
     color: #2e4053; }
+  .section-center{
+    text-align: center;
+    color: white;
+    font-family: sans-serif;
+  }
+  .text-center{
+    text-align: center;
+    color: white;
+    font-family: sans-serif;
+  }
+  .paragraph{
+    color:white;
+    font-family:sans-serif;
+    padding: 10px;
+  }
 body {
   background-color: #2e4053; 
 }
@@ -213,3 +228,6 @@ body {
   margin: auto;
   }
 
+#banner_img {
+  width:100%;
+}
