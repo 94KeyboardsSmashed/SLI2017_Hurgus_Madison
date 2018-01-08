@@ -48,7 +48,7 @@ with open('log.txt') as log:
     #v is the absolute value of the (magnitude of the data minus 9.81)
     v = [abs(mag(val)-9.81) for val in total]
     
-    #m(magnitude) is simply the magnitude of the data
+    #m (magnitude) is simply the magnitude of the data
     m = [mag(val) for val in total2]
 
     #t (transform) is the fast fourier transform of v (google is your friend)
