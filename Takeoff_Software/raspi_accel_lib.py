@@ -51,23 +51,23 @@ class ADXL345:
 
     def __init__(self, address=0x53):
         self.address = address
-        self.setBandwidthRate(BW_RATE_100HZ)
-        self.setRange(RANGE_8G)
-        self.enableMeasurement()
+        self.set_bandwidth_rate(BW_RATE_100HZ)
+        self.set_range(RANGE_8G)
+        self.enable_measurement()
         self.x_measurement = 0
         self.y_measurement = 0
         self.z_measurement = 0
         self.mag_measurement = 0
 
-    def enableMeasurement(self):
+    def enable_measurement(self):
         """Enables Measurement Readings"""
         BUS.write_byte_data(self.address, POWER_CTL, MEASURE)
 
-    def setBandwidthRate(self, rate_flag):
+    def set_bandwidth_rate(self, rate_flag):
         """set the measurement range for 10-bit readings"""
         BUS.write_byte_data(self.address, BW_RATE, rate_flag)
 
-    def setRange(self, range_flag):
+    def set_range(self, range_flag):
         """returns the current reading from the sensor for each axis parameter gforce:
         #    False (default): result is returned in m/s^2
         #    True           : result is returned in gs"""
@@ -79,49 +79,49 @@ class ADXL345:
 
         BUS.write_byte_data(self.address, DATA_FORMAT, value)
 
-    def getAxes(self, gforce=False):
+    def get_axes(self, gforce=False):
         """Returns the measurement of the axes of the accelerometer in a dictionary (x,y,z)"""
         _bytes = BUS.read_i2c_block_data(self.address, AXES_DATA, 6)
 
-        x = _bytes[0] | (_bytes[1] << 8)
-        if(x & (1 << 16 - 1)):
-            x = x - (1<<16)
+        _x = _bytes[0] | (_bytes[1] << 8)
+        if _x & (1 << 16 - 1):
+            _x = _x - (1<<16)
 
-        y = _bytes[2] | (_bytes[3] << 8)
-        if(y & (1 << 16 - 1)):
-            y = y - (1<<16)
+        _y = _bytes[2] | (_bytes[3] << 8)
+        if _y & (1 << 16 - 1):
+            _y = _y - (1<<16)
 
-        z = _bytes[4] | (_bytes[5] << 8)
-        if(z & (1 << 16 - 1)):
-            z = z - (1<<16)
+        _z = _bytes[4] | (_bytes[5] << 8)
+        if _z & (1 << 16 - 1):
+            _z = _z - (1<<16)
 
-        x = x * SCALE_MULTIPLIER 
-        y = y * SCALE_MULTIPLIER
-        z = z * SCALE_MULTIPLIER
+        _x = _x * SCALE_MULTIPLIER
+        _y = _y * SCALE_MULTIPLIER
+        _z = _z * SCALE_MULTIPLIER
 
         if not gforce:
-            x = x * EARTH_GRAVITY_MS2
-            y = y * EARTH_GRAVITY_MS2
-            z = z * EARTH_GRAVITY_MS2
+            _x = _x * EARTH_GRAVITY_MS2
+            _y = _y * EARTH_GRAVITY_MS2
+            _z = _z * EARTH_GRAVITY_MS2
 
-        x = round(x, 4)
-        y = round(y, 4)
-        z = round(z, 4)
+        _x = round(_x, 4)
+        _y = round(_y, 4)
+        _z = round(_z, 4)
 
-        return {"x": x, "y": y, "z": z}
+        return {"x": _x, "y": _y, "z": _z}
 
     def string_output(self, gees=False):
         """Returns a string 'time, x, y, z'"""
-        axes = self.getAxes(gees)
+        axes = self.get_axes(gees)
         return "{},{},{},{}".format(time.time(), axes['x'], axes['y'], axes['z'])
 
     def accel_startup(self, gees=False, noise=True):
         """Reads out a couple accelerometer values (disable with noise = False)
         and checks for errors."""
-        axes = self.getAxes(gees)
-        x = axes['x']
-        y = axes['y']
-        z = axes['z']
+        axes = self.get_axes(gees)
+        x_readout = axes['x']
+        y_readout = axes['y']
+        z_readout = axes['z']
         mag = abs(math.sqrt(axes['x']**2 + axes['y']**2 + axes['z']**2)-9.81)
         # Read out values for debugging
         if noise:
@@ -131,12 +131,12 @@ class ADXL345:
             print("# {}".format(self.string_output(gees)))
             # Comparative Test Values (should be similar)
             print("# Timestamp: {}".format(time.time()))
-            print("# X: {}".format(x))
-            print("# Y: {}".format(y))
-            print("# Z: {}".format(z))
+            print("# X: {}".format(x_readout))
+            print("# Y: {}".format(y_readout))
+            print("# Z: {}".format(z_readout))
             print("# Magnitude: {}".format(mag))
-        if (x > 24 or y > 24 or z > 24):
-            raise ValueError("Accelerometer readout is unreasonably high. Hold payload still during startup")
+        if x_readout > 24 or y_readout > 24 or z_readout > 24:
+            raise ValueError("Accelerometer readout is too high. Hold payload still during startup")
 
-        if (x < -15 or y < -15 or z < -15):
-            raise ValueError("Accelerometer readout is unreasonably low. Hold payload still during startup")
+        if x_readout < -15 or y_readout < -15 or z_readout < -15:
+            raise ValueError("Accelerometer readout is too low. Hold payload still during startup")
