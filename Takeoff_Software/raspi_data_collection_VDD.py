@@ -45,8 +45,13 @@ LED_DMA_1 = 5
 LED_BRIGHTNESS_1 = 255
 LED_INVERT_1 = False
 
-#Accelerometer Settings
+
+# Accelerometer Settings:
+
+# Read out debug code and startup messages
 NOISE = True
+
+# Output readings in Gs, set to false if measurments in m/s**2 is desired
 GFORCE = False
 
 if __name__ == '__main__':

@@ -43,8 +43,13 @@ LED_DMA_1 = 5
 LED_BRIGHTNESS_1 = 255
 LED_INVERT_1 = False
 
-# Accelerometer Settings
+
+# Accelerometer Settings:
+
+# Read out debug code and startup messages
 NOISE = True
+
+# Output readings in Gs, set to false if measurments in m/s**2 is desired
 GFORCE = False
 
 if __name__ == '__main__':
@@ -67,7 +72,7 @@ if __name__ == '__main__':
     except Exception as error:
         KATANA.color_wipe(raspi_neopixel_lib.Color(255, 0, 0), 10)
         KATANA.neopixel_shutdown(NOISE)
-        print("# KATANA exited on startup with error: {}".format(error))
+        print("# KATANA-INDUS exited on startup with error: {}".format(error))
         sys.stdout.flush()
 
     while True:
@@ -78,6 +83,6 @@ if __name__ == '__main__':
         except Exception as error:
             KATANA.color_wipe(raspi_neopixel_lib.Color(255, 0, 0))
             KATANA.neopixel_shutdown(NOISE)
-            print("# KATANA exited in runtime with error: {}".format(error))
+            print("# KATANA-INDUS exited in runtime with error: {}".format(error))
             sys.stdout.flush()
             sys.exit(1)

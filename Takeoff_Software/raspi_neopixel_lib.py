@@ -320,7 +320,7 @@ class Adafruit_NeoPixel(object):
             self.show()
         if noise:
             print ("# Shutdown Sucessful")
-            
+
     def neopixel_startup(self, noise=True):
         """Initiates the neopixel by doing a rainbow cycle, a yellow wipe, and green wipe
         Use noise = False if you don't want print outputs"""
@@ -337,7 +337,7 @@ class Adafruit_NeoPixel(object):
             try:
                 if noise:
                     print("# Error encountered when setting up neopixel. Did you try running the module as a root?")
-                    print ("# {}".format(error))
+                    print("# {}".format(error))
                     print("# Attempting shutdown...")
                 for i in range(self.numPixels()):
                     self.setBrightness(0)
