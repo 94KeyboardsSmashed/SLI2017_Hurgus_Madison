@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Python Data Collection Module
 
@@ -76,6 +77,7 @@ if __name__ == '__main__':
         SABRE.neopixel_shutdown(NOISE)
         print("# SABRE exited on startup with error: {}".format(error))
         sys.stdout.flush()
+        sys.exit(1)
 
     while True:
         try:
@@ -87,3 +89,4 @@ if __name__ == '__main__':
             SABRE.neopixel_shutdown(NOISE)
             print("# SABRE exited in runtime with error: {}".format(error))
             sys.stdout.flush()
+            sys.exit(1)

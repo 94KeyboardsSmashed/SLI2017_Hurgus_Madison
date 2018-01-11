@@ -1,5 +1,6 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Python Data Collection Module
+#Python Data Collection Module
 
 """
 Created on Tue May  9 12:13:27 2017
@@ -74,6 +75,7 @@ if __name__ == '__main__':
         KATANA.neopixel_shutdown(NOISE)
         print("# KATANA-INDUS exited on startup with error: {}".format(error))
         sys.stdout.flush()
+        sys.exit(1)
 
     while True:
         try:
@@ -83,5 +85,6 @@ if __name__ == '__main__':
         except Exception as error:
             KATANA.color_wipe(raspi_neopixel_lib.Color(255, 0, 0))
             KATANA.neopixel_shutdown(NOISE)
-            print("# KATANA-INDUS exited in runtime with error: {}".format(error))
+            print("# KATANA-INDUS exited in run-time with error: {}".format(error))
             sys.stdout.flush()
+            sys.exit(1)

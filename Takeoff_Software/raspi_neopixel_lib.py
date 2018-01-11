@@ -1,5 +1,6 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*
-# Python Neopixel Libraries Module
+#Python Neopixel Libraries Module
 
 """
 Created on Mon Oct 2 12:13:27 2017
@@ -9,7 +10,7 @@ Created on Mon Oct 2 12:13:27 2017
 IMPORTANT: THIS MODULE REQUIRES ROOT ACCESS TO RUN.
 Uses indents
 
-Adopted from the Adafruit NeoPixel Libraries Module created by 
+Adopted from the Adafruit NeoPixel Libraries Module created by
 Tony DiCola (tony@tonydicola.com), Jeremy Garff (jer@jers.net)
 
 """
@@ -147,16 +148,16 @@ class Adafruit_NeoPixel(object):
             message = ws.ws2811_get_return_t_str(resp)
             raise RuntimeError('ws2811_render failed with code {0} ({1})'.format(resp, message))
 
-    def setPixelColor(self, n, color):
-        """Set LED at position n to the provided 24-bit color value (in RGB order)."""
-        self._led_data[n] = color
+    def setPixelColor(self, pos, color):
+        """Set LED at position pos to the provided 24-bit color value (in RGB order)."""
+        self._led_data[pos] = color
 
-    def setPixelColorRGB(self, n, red, green, blue, white=0):
-        """Set LED at position n to the provided red, green, and blue color.
+    def setPixelColorRGB(self, pos, red, green, blue, white=0):
+        """Set LED at position pos to the provided red, green, and blue color.
         Each color component should be a value from 0 to 255 (where 0 is the
         lowest intensity and 255 is the highest intensity).
         """
-        self.setPixelColor(n, Color(red, green, blue, white))
+        self.setPixelColor(pos, Color(red, green, blue, white))
 
     def setBrightness(self, brightness):
         """Scale each LED in the buffer by the provided brightness.  A brightness
@@ -174,9 +175,9 @@ class Adafruit_NeoPixel(object):
         """Return the number of pixels in the display."""
         return ws.ws2811_channel_t_count_get(self._channel)
 
-    def getPixelColor(self, n):
-        """Get the 24-bit RGB color value for the LED at position n."""
-        return self._led_data[n]
+    def getPixelColor(self, pos):
+        """Get the 24-bit RGB color value for the LED at position pos."""
+        return self._led_data[pos]
 
     ##Subset 1. Neopixel based gradient commands:
     def pulsateNeoPixel(self, brightness, color):
@@ -319,7 +320,7 @@ class Adafruit_NeoPixel(object):
             self.setBrightness(0)
             self.show()
         if noise:
-            print ("# Shutdown Sucessful")
+            print("# Shutdown Sucessful")
 
     def neopixel_startup(self, noise=True):
         """Initiates the neopixel by doing a rainbow cycle, a yellow wipe, and green wipe
