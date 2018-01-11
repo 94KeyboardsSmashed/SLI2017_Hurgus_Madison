@@ -85,4 +85,3 @@ if __name__ == '__main__':
             KATANA.neopixel_shutdown(NOISE)
             print("# KATANA-INDUS exited in runtime with error: {}".format(error))
             sys.stdout.flush()
-            sys.exit(1)

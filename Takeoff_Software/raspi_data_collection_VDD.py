@@ -87,4 +87,3 @@ if __name__ == '__main__':
             SABRE.neopixel_shutdown(NOISE)
             print("# SABRE exited in runtime with error: {}".format(error))
             sys.stdout.flush()
-            sys.exit(1)
