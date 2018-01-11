@@ -6,8 +6,6 @@ sudo apt-get install python-smbus
 sudo apt-get install python3-smbus
 sudo pip install RPi.GPIO
 sudo pip install cap1xxx
-sudo apt-get install python-smbus
-sudo apt-get install python3-smbus
 
 # Install neopixel depenancies
 sudo apt-get install build-essential python-dev git scons swig
