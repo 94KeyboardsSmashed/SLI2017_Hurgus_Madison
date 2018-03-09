@@ -31,7 +31,7 @@ def sanitize(lst):
 #Have log.txt in the same folder as this code.
 #Name of log has to be same as name in the open function
 
-with open('Example_Log.txt') as log: #Change file in open() command to match file name
+with open('logvdd.txt') as log: #Change file in open() command to match file name
     lines = log.readlines()
     
     rawtime = linesplit(0)
