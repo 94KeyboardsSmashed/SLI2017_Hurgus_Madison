@@ -1,4 +1,3 @@
-## Madison West Rocketry Team Hurgus Repository
 <h1 align="center">
   <br>
   <a href="http://liquid.westrocketry.com/index.html"><img src="http://liquid.westrocketry.com/images/patch.png" alt="Madison West Rocketry" width="200"></a>
