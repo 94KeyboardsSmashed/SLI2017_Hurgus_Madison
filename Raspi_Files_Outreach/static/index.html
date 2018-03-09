@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Realtime Accelerometer</title>
+        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    </head>
+    <link rel="stylesheet" type="text/css" href="Style.css">
+    <body>
+        <!-- NAV -->
+        <div class="b-nav">
+                <li><a class="b-link" href="http://temeraire:8080/magnitude_readout.html" target="_blank">Magnitude</a></li>
+                <li><a class="b-link" href="http://temeraire:8080/Xvalue_readout.html" target="_blank">X Readout</a></li>
+                <li><a class="b-link" href="http://temeraire:8080/Yvalue_readout.html" target="_blank">Y Readout</a></li>
+                <li><a class="b-link" href="http://temeraire:8080/Zvalue_readout.html" target="_blank">Z Readout</a></li>
+             </div>
+            
+            <!-- ICON -->
+            <div class="b-container">
+                <div class="b-menu">
+                <div class="b-bun b-bun--top"></div>
+                <div class="b-bun b-bun--mid"></div>
+                <div class="b-bun b-bun--bottom"></div>
+            </div>
+            
+            <!-- TTL -->
+            <a href="http://temeraire:8080/index.html" class="b-brand">Realtime Accelerometer Readout</a>
+        </div>
+
+        <script>
+            'use strict';
+
+            (function() {
+            var body = document.body;
+            var burgerMenu = document.getElementsByClassName('b-menu')[0];
+            var burgerContain = document.getElementsByClassName('b-container')[0];
+            var burgerNav = document.getElementsByClassName('b-nav')[0];
+
+            burgerMenu.addEventListener('click', function toggleClasses() {
+                [body, burgerContain, burgerNav].forEach(function (el) {
+                el.classList.toggle('open');
+                });
+            }, false);
+            })();
+        </script>
+    </body>
+</html>

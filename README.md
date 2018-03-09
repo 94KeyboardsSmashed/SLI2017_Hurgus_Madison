@@ -10,6 +10,3 @@ https://github.com/pimoroni/adxl345-python
 rpi_ws281x (neopixel) Python Libraries
 https://github.com/jgarff/rpi_ws281x
 
-pybluez Python Libraries
-https://github.com/karulis/pybluez
-
