@@ -15,7 +15,7 @@ Madison West Rocketry is a group of students who are studying the dampening effe
 Welcome to our repository.This is the software for our
 rocket payload experiment titled "Study of Damping Efficiency in Various Liquids." This specific reposity hosts a plethora of test files and examples regarding the software of the experiment. For the individual Software of the payload please go to [MWR_Takeoff_Software](https://github.com/94KeyboardsSmashed/MWR_Takeoff_Software.git). 
 
-### Project Gershwin:
+## Project Gershwin:
 - (G)reat
 - (E)xperimental
 - (R)ocket
