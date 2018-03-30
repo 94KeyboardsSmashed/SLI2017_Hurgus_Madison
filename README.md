@@ -1,4 +1,3 @@
-## Madison West Rocketry Team Hurgus Repository
 <h1 align="center">
   <br>
   <a href="http://liquid.westrocketry.com/index.html"><img src="http://liquid.westrocketry.com/images/patch.png" alt="Madison West Rocketry" width="200"></a>
@@ -9,14 +8,14 @@
 
 <h4 align="center">The software running on the payload of Madison West Rocketry's 2018 <a href="https://www.nasa.gov/audience/forstudents/studentlaunch/home/index.html" target="_blank">SLI project</a>.</h4>
 
-# Madison West Rocketry (MWR)
+## Madison West Rocketry (MWR)
 Madison West Rocketry is a group of students who are studying the dampening effects of liquid vibrations in rockets. This repo is for the coding and keyboardsmashing that is needed to get useful data from the project and have a great student launch this year.
 
 ## Project Description
 Welcome to our repository.This is the software for our
 rocket payload experiment titled "Study of Damping Efficiency in Various Liquids." This specific reposity hosts a plethora of test files and examples regarding the software of the experiment. For the individual Software of the payload please go to [MWR_Takeoff_Software](https://github.com/94KeyboardsSmashed/MWR_Takeoff_Software.git). 
 
-### Project Gershwin:
+## Project Gershwin:
 - (G)reat
 - (E)xperimental
 - (R)ocket
