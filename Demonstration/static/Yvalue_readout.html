@@ -8,10 +8,10 @@
     <body onload="createTimeline()">
         <!-- NAV -->
         <div class="b-nav">
-                <li><a class="b-link" href="http://temeraire:8080/magnitude_readout.html" target="_blank">Magnitude</a></li>
-                <li><a class="b-link" href="http://temeraire:8080/Xvalue_readout.html" target="_blank">X Readout</a></li>
-                <li><a class="b-link" href="http://temeraire:8080/Yvalue_readout.html" target="_blank">Y Readout</a></li>
-                <li><a class="b-link" href="http://temeraire:8080/Zvalue_readout.html" target="_blank">Z Readout</a></li>
+                <li><a class="b-link" href="./magnitude_readout.html" target="_blank">Magnitude</a></li>
+                <li><a class="b-link" href="./Xvalue_readout.html" target="_blank">X Readout</a></li>
+                <li><a class="b-link" href="./Yvalue_readout.html" target="_blank">Y Readout</a></li>
+                <li><a class="b-link" href="./Zvalue_readout.html" target="_blank">Z Readout</a></li>
              </div>
             
             <!-- ICON -->
@@ -23,7 +23,7 @@
             </div>
             
             <!-- TTL -->
-            <a href="http://temeraire:8080/index.html" class="b-brand">Realtime Accelerometer Readout: X-Axis</a>
+            <a href="./index.html" class="b-brand">Realtime Accelerometer Readout: Y-Axis</a>
         </div>
 
         <script>
@@ -66,15 +66,15 @@
             chart.addTimeSeries(yangtze, { 
                 strokeStyle: '#ff5733',
                 lineWidth: 3 });
-            
+
             chart.addTimeSeries(xaxis, { 
                 strokeStyle: '#000000',
                 lineWidth: 2 });
-    
+
             chart.streamTo(document.getElementById("chart"), 500);
           }
           
-          var ws = new ReconnectingWebSocket('ws://temeraire:8080/');
+          var ws = new ReconnectingWebSocket('ws://' + (location.host ? location.host : "localhost:8080") + "/");
           ws.onopen = function() {
             console.log("Websocket Opened");
           };
@@ -82,14 +82,14 @@
             window.alert("Websocket Closed");
           };
           ws.onmessage = function(event) {
-            var data = event.data.split(",");
-            var timestamp = parseFloat(data[0]) * 1000;  // expects ms
-            var x_indus_value = parseFloat(data[1]);
-            var x_yangtze_value = parseFloat(data[6])
-            indus.append(timestamp, x_indus_value);
-            yangtze.append(timestamp, x_yangtze_value);
-            xaxis.append(timestamp, 0);
-          };
+          var data = event.data.split(",");
+          var timestamp = parseFloat(data[0]) * 1000 -5000;  // expects ms
+          var y_indus_value = parseFloat(data[2]);
+          var y_yangtze_value = parseFloat(data[7])
+          indus.append(timestamp, y_indus_value);
+          yangtze.append(timestamp, y_yangtze_value);
+          xaxis.append(timestamp, 0);
+        };
           
         </script>
        <!--canvas size may need to be changed depending on screen size. Ratio= 10:4
@@ -97,4 +97,3 @@
         <canvas id="chart" width="1350" height="600"></canvas>
     </body>
 </html>
-      
