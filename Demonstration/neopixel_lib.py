@@ -105,7 +105,7 @@ class _LED_Data(object):
 
 class Adafruit_NeoPixel(object):
     """See __init__ docstrings for more info"""
-    def __init__(self, num, pin, freq_hz=800000, dma=5, invert=False,
+    def __init__(self, num, pin, freq_hz=800000, dma=10, invert=False,
                  brightness=255, channel=0, strip_type=ws.WS2811_STRIP_RGB):
         """Class to represent a NeoPixel/WS281x LED display.  Num should be the
         number of pixels in the display, and pin should be the GPIO pin connected
@@ -308,14 +308,14 @@ class Adafruit_NeoPixel(object):
         -------
         None
         """
-        greeness = 64
+        greeness = 32
         redness = 0
-        greeness -= 0.64*percentage
-        redness += 0.64*percentage
+        greeness -= 0.32*percentage
+        redness += 0.32*percentage
         if greeness < 0:
             greeness = 0
-        if redness > 255:
-            redness = 255
+        if redness > 32:
+            redness = 32
         for i in range(self.num_pixels()):
             self.set_pixel_color(i, color_value(int(redness), int(greeness), 0))
             self.show()
@@ -456,7 +456,5 @@ class Adafruit_NeoPixel(object):
         """
         time.sleep(1)
         self.color_wipe(error_col, 100)
-        time.sleep(2)
-        self.rainbow_cycle(10, 1)
         time.sleep(1)
         self.neopixel_off()
