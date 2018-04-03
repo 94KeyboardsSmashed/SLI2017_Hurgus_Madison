@@ -228,6 +228,65 @@ body {
   margin: auto;
   }
 
+#mag {
+  max-height: 100%;
+  max-width: 100%;
+  height: auto;
+  width: auto;
+  display: block;
+  position: absolute;
+  top: 100;
+  left: 10;
+  box-sizing: border-box;
+  margin: auto;
+  }
+
+#x {
+  max-height: 100%;
+  max-width: 100%;
+  height: auto;
+  width: auto;
+  display: block;
+  position: absolute;
+  top: 250;
+  left: 10;
+  box-sizing: border-box;
+  margin: auto;
+  }
+
+#y {
+  max-height: 100%;
+  max-width: 100%;
+  height: auto;
+  width: auto;
+  display: block;
+  position: absolute;
+  top: 400;
+  left: 10;
+  box-sizing: border-box;
+  margin: auto;
+  }
+
+#z {
+  max-height: 100%;
+  max-width: 100%;
+  height: auto;
+  width: auto;
+  display: block;
+  position: absolute;
+  top: 550;
+  left: 10;
+  box-sizing: border-box;
+  margin: auto;
+  }
+
 #banner_img {
   width:100%;
+}
+
+h4{
+  margin-bottom: 1px;
+  font-weight: lighter;
+  color: #EEE5E9 ;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }

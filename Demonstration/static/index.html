@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+
 <html>
     <head>
         <title>Realtime Accelerometer</title>
         <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
     </head>
     <link rel="stylesheet" type="text/css" href="Style.css">
-    <body>
+    <body onload="createTimeline()">
         <!-- NAV -->
         <div class="b-nav">
                 <li><a class="b-link" href="./magnitude_readout.html" target="_blank">Magnitude</a></li>
@@ -42,5 +42,167 @@
             }, false);
             })();
         </script>
+
+        <!--CHART-->
+        <script type="text/javascript" src="vendor/smoothie.js"></script>
+        <script type="text/javascript" src="vendor/reconnecting-websocket.min.js"></script>
+        <script type="text/javascript">
+          var indus_mag = new TimeSeries();
+          var yangtze_mag = new TimeSeries();
+
+          var indus_x = new TimeSeries();
+          var yangtze_x = new TimeSeries();
+
+          var xaxis = new TimeSeries();
+
+          var indus_y = new TimeSeries();
+          var yangtze_y = new TimeSeries();
+
+          var indus_z = new TimeSeries();
+          var yangtze_z = new TimeSeries();
+
+          function createTimeline() {
+            var chart_mag = new SmoothieChart({
+                grid: { fillStyle:'#ffffff', verticalSections: 4},
+                labels:{fillStyle:'#000000',fontSize:11},
+                interpolation:'bezier',
+                 minValue:-0.0,
+                 maxValue:40.0
+            });
+            chart_mag.addTimeSeries(indus_mag, { 
+                strokeStyle: '#3375ff',
+                lineWidth: 3 });
+    
+            chart_mag.addTimeSeries(yangtze_mag, { 
+                strokeStyle: '#ff5733',
+                lineWidth: 3 });
+    
+            chart_mag.streamTo(document.getElementById("chart_mag"), 500);
+          
+
+            var chart_x = new SmoothieChart({
+                grid: { fillStyle:'#ffffff', verticalSections: 4},
+                labels:{fillStyle:'#000000',fontSize:11},
+                interpolation:'bezier',
+                 minValue:-20.0,
+                 maxValue:20.0
+            });
+            chart_x.addTimeSeries(indus_x, { 
+                strokeStyle: '#3375ff',
+                lineWidth: 3 });
+    
+            chart_x.addTimeSeries(yangtze_x, { 
+                strokeStyle: '#ff5733',
+                lineWidth: 3 });
+            
+            chart_x.addTimeSeries(xaxis, { 
+                strokeStyle: '#000000',
+                lineWidth: 2 });
+    
+            chart_x.streamTo(document.getElementById("chart_x"), 500);
+
+
+            var chart_y = new SmoothieChart({
+                grid: { fillStyle:'#ffffff', verticalSections: 4},
+                labels:{fillStyle:'#000000',fontSize:11},
+                interpolation:'bezier',
+                 minValue:-20.0,
+                 maxValue:20.0
+            });
+            chart_y.addTimeSeries(indus_y, { 
+                strokeStyle: '#3375ff',
+                lineWidth: 3 });
+    
+            chart_y.addTimeSeries(yangtze_y, { 
+                strokeStyle: '#ff5733',
+                lineWidth: 3 });
+
+            chart_y.addTimeSeries(xaxis, { 
+                strokeStyle: '#000000',
+                lineWidth: 2 });
+
+            chart_y.streamTo(document.getElementById("chart_y"), 500);
+
+            var chart_z = new SmoothieChart({
+                grid: { fillStyle:'#ffffff', verticalSections: 4},
+                labels:{fillStyle:'#000000',fontSize:11},
+                interpolation:'bezier',
+                 minValue:-20.0,
+                 maxValue:20.0
+            });
+            chart_z.addTimeSeries(indus_z, { 
+                strokeStyle: '#3375ff',
+                lineWidth: 3 });
+    
+            chart_z.addTimeSeries(yangtze_z, { 
+                strokeStyle: '#ff5733',
+                lineWidth: 3 });
+
+            chart_z.addTimeSeries(xaxis, { 
+                strokeStyle: '#000000',
+                lineWidth: 2 });
+    
+            chart_z.streamTo(document.getElementById("chart_z"), 500);
+          }
+
+
+
+
+
+
+
+
+
+          var ws = new ReconnectingWebSocket('ws://' + (location.host ? location.host : "localhost:8080") + "/");
+          ws.onopen = function() {
+            console.log("Websocket Opened");
+          };
+          ws.onclose = function() {
+            window.alert("Websocket Closed");
+          };
+          ws.onmessage = function(event) {
+            var data = event.data.split(",");
+            var timestamp = parseFloat(data[0]) * 1000 - 5000;  // expects ms
+            var mag_indus_value = parseFloat(data[4]);
+            var mag_yangtze_value = parseFloat(data[9])
+            indus_mag.append(timestamp, mag_indus_value);
+            yangtze_mag.append(timestamp, mag_yangtze_value);
+
+            var x_indus_value = parseFloat(data[1]);
+            var x_yangtze_value = parseFloat(data[6])
+            indus_x.append(timestamp, x_indus_value);
+            yangtze_x.append(timestamp, x_yangtze_value);
+            xaxis.append(timestamp, 0);
+
+            var y_indus_value = parseFloat(data[2]);
+            var y_yangtze_value = parseFloat(data[7])
+            indus_y.append(timestamp, y_indus_value);
+            yangtze_y.append(timestamp, y_yangtze_value);
+
+            var z_indus_value = parseFloat(data[3]);
+            var z_yangtze_value = parseFloat(data[8])
+            indus_z.append(timestamp, z_indus_value);
+            yangtze_z.append(timestamp, z_yangtze_value);
+          };
+    
+        </script>
+        <!--canvas size may need to be changed depending on screen size. Ratio= 10:4
+           The current configuration is for a larger screen size-->
+        <div id='mag'>
+            <h4>Magnitude Readout</h4>
+            <canvas id="chart_mag" width="600" height="100"></canvas>
+        </div>
+        <div id='x'>
+            <h4>X Value Readout </h4>
+            <canvas id="chart_x" width="600" height="100"></canvas>
+        </div>
+        <div id='y'>
+                <h4>Y Value Readout</h4>
+                <canvas id="chart_y" width="600" height="100"></canvas>
+        </div>
+        <div id='z'>
+                <h4>Z Value Readout</h4>
+                <canvas id="chart_z" width="600" height="100"></canvas>
+        </div>
     </body>
 </html>
